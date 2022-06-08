@@ -1,0 +1,11 @@
+.logo {
+  float: left;
+  margin-right: 2rem;
+}
+.nav-bar {
+  float: right;
+}
+.site-layout-content {
+  padding-top: 1rem;
+  padding-bottom: 1.2rem;
+}
