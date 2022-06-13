@@ -8,6 +8,7 @@ import AppLayout from "../layout";
 import NotFound from "../components/NotFound";
 import Login from "../components/Login";
 import { ChakraProvider } from "@chakra-ui/react";
+import Signup from "../components/Signup";
 
 const appRoutes = [
   { key: 1, path: "/", element: <Dashboard /> },
@@ -16,6 +17,7 @@ const appRoutes = [
   { key: 4, path: "/report", element: <Report /> },
   { key: 5, path: "*", element: <NotFound /> },
   { key: 6, path: "/login", element: <Login /> },
+  { key: 7, path: "/signup", element: <Signup /> },
 ];
 
 const AppRouter = () => {

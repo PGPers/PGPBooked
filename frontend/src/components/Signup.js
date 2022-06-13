@@ -14,7 +14,7 @@ import {
   ButtonGroup,
 } from "@chakra-ui/react";
 
-const Login = () => {
+const Signup = () => {
   return (
     <Box
       w={["full", "md"]}
@@ -27,8 +27,8 @@ const Login = () => {
     >
       <VStack spacing={4} align="flex-start" w="full">
         <VStack spacing={1} align={["flex-start", "center"]} w="full">
-          <Heading>Login</Heading>
-          <Text>Enter your e-mail and password to login</Text>
+          <Heading>Sign Up</Heading>
+          <Text>Enter your e-mail and password to sign up</Text>
         </VStack>
 
         <FormControl>
@@ -39,31 +39,25 @@ const Login = () => {
           <FormLabel>Password</FormLabel>
           <Input rounded="none" variant="filled" type="password" />
         </FormControl>
-        <HStack w="full" justify="space-between">
-          <Checkbox>Remember me.</Checkbox>
-          <Button variant="link" colorScheme="blue">
-            Forget Password?
-          </Button>
-        </HStack>
+        <FormControl>
+          <FormLabel>Re-enter Password</FormLabel>
+          <Input rounded="none" variant="filled" type="password" />
+        </FormControl>
         <HStack alignSelf={"end"}>
-          <Link to="/signup">
-            <Button
-              variant="ghost"
-              rounded="none"
-              colorScheme="blue"
-              w={["full", "auto"]}
-              alignSelf="end"
-            >
-              Sign Up
+          <Link to="/login">
+            <Button variant="link" colorScheme="blue">
+              Login instead
             </Button>
           </Link>
+        </HStack>
+        <HStack alignSelf={"end"}>
           <Button
             rounded="none"
             colorScheme="blue"
             w={["full", "auto"]}
             alignSelf="end"
           >
-            Login
+            Sign Up
           </Button>
         </HStack>
       </VStack>
@@ -71,4 +65,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
