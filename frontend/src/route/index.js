@@ -6,6 +6,8 @@ import Product from "../components/Product";
 import Report from "../components/Reports";
 import AppLayout from "../layout";
 import NotFound from "../components/NotFound";
+import Login from "../components/Login";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const appRoutes = [
   { key: 1, path: "/", element: <Dashboard /> },
@@ -13,19 +15,22 @@ const appRoutes = [
   { key: 3, path: "/product", element: <Product /> },
   { key: 4, path: "/report", element: <Report /> },
   { key: 5, path: "*", element: <NotFound /> },
+  { key: 6, path: "/login", element: <Login /> },
 ];
 
 const AppRouter = () => {
   return (
-    <BrowserRouter>
-      <AppLayout>
-        <Routes>
-          {appRoutes.map((route) => (
-            <Route {...route} />
-          ))}
-        </Routes>
-      </AppLayout>
-    </BrowserRouter>
+    <ChakraProvider>
+      <BrowserRouter>
+        <AppLayout>
+          <Routes>
+            {appRoutes.map((route) => (
+              <Route {...route} />
+            ))}
+          </Routes>
+        </AppLayout>
+      </BrowserRouter>
+    </ChakraProvider>
   );
 };
 

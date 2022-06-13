@@ -8,6 +8,7 @@ const navOptions = [
   { key: 1, label: <Link to="/product">Product</Link> },
   { key: 2, label: <Link to="/report">Report</Link> },
   { key: 3, label: <Link to="/about">About</Link> },
+  { key: 4, label: <Link to="/login">Login</Link> },
 ];
 const { Header } = Layout;
 
