@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
+import { firebase } from "../firebase-config";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -9,12 +10,24 @@ import {
   FormControl,
   Input,
   HStack,
-  Checkbox,
   Button,
-  ButtonGroup,
 } from "@chakra-ui/react";
 
 const Login = () => {
+  const [email, loginEmail] = useState("");
+  const [password, loginPassword] = useState("");
+
+  const login = async () => {
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(async (response) => {
+        console.log(response.user);
+      })
+    } catch (error) {
+      console.log("Incorrect email or password");
+    }
+  }
+
   return (
     <Box
       w={["full", "md"]}
@@ -33,14 +46,13 @@ const Login = () => {
 
         <FormControl>
           <FormLabel>E-mail Address</FormLabel>
-          <Input rounded="none" variant="filled" />
+          <Input rounded="none" variant="filled" onChange={(e) => {loginEmail(e.target.value)}}/>
         </FormControl>
         <FormControl>
           <FormLabel>Password</FormLabel>
-          <Input rounded="none" variant="filled" type="password" />
+          <Input rounded="none" variant="filled" type="password" onChange={(e) => {loginPassword(e.target.value)}}/>
         </FormControl>
         <HStack w="full" justify="space-between">
-          <Checkbox>Remember me.</Checkbox>
           <Button variant="link" colorScheme="blue">
             Forget Password?
           </Button>
@@ -58,6 +70,7 @@ const Login = () => {
             </Button>
           </Link>
           <Button
+            onClick={login}
             rounded="none"
             colorScheme="blue"
             w={["full", "auto"]}

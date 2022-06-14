@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { firebase } from "../firebase-config";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -9,12 +10,43 @@ import {
   FormControl,
   Input,
   HStack,
-  Checkbox,
   Button,
-  ButtonGroup,
 } from "@chakra-ui/react";
 
+function passwordTooShort(password) {
+  return password.length < 6;
+}
+function isValidEmail(email) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
 const Signup = () => {
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const register = async () => {
+    if (!isValidEmail(registerEmail)) {
+      console.log("Email is not valid");
+    } else if (registerPassword !== confirmPassword) {
+      console.log("Password does not match");
+    } else if (passwordTooShort(registerPassword)) {
+      console.log("Weak password: must at least 6 characters long");
+    } else {
+      try {
+        await firebase.auth().createUserWithEmailAndPassword(registerEmail, registerPassword)
+        .then(async (response) => {
+          response.user.sendEmailVerification();
+          console.log(response.user);
+        })
+        firebase.auth().signOut();
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
+
   return (
     <Box
       w={["full", "md"]}
@@ -33,15 +65,15 @@ const Signup = () => {
 
         <FormControl>
           <FormLabel>E-mail Address</FormLabel>
-          <Input rounded="none" variant="filled" />
+          <Input rounded="none" variant="filled" onChange={(e) => {setRegisterEmail(e.target.value)}}/>
         </FormControl>
         <FormControl>
           <FormLabel>Password</FormLabel>
-          <Input rounded="none" variant="filled" type="password" />
+          <Input rounded="none" variant="filled" type="password" onChange={(e) => {setRegisterPassword(e.target.value)}}/>
         </FormControl>
         <FormControl>
           <FormLabel>Re-enter Password</FormLabel>
-          <Input rounded="none" variant="filled" type="password" />
+          <Input rounded="none" variant="filled" type="password" onChange={(e) => {setConfirmPassword(e.target.value)}}/>
         </FormControl>
         <HStack alignSelf={"end"}>
           <Link to="/login">
@@ -51,7 +83,8 @@ const Signup = () => {
           </Link>
         </HStack>
         <HStack alignSelf={"end"}>
-          <Button
+          <Button 
+            onClick={register}
             rounded="none"
             colorScheme="blue"
             w={["full", "auto"]}
