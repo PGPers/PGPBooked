@@ -14,6 +14,21 @@ import {
 } from "@chakra-ui/react";
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+
+  const reset = async (event) => {
+    event.preventDefault();
+    await firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        console.log("Reset password email sent");
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
+    };
+
   return (
     <Box
       w={["full", "md"]}
@@ -32,7 +47,7 @@ const ForgotPassword = () => {
 
         <FormControl>
           <FormLabel>E-mail Address</FormLabel>
-          <Input rounded="none" variant="filled" />
+          <Input rounded="none" variant="filled" onChange={(e) => setEmail(e.target.value)}/>
         </FormControl>
         <HStack w="full" justify="space-between">
           <Link to="/login">
@@ -43,6 +58,7 @@ const ForgotPassword = () => {
         </HStack>
         <HStack alignSelf={"end"}>
           <Button
+            onClick={reset}
             rounded="none"
             colorScheme="blue"
             w={["full", "auto"]}
