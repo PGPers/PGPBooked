@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { firebase } from "../firebase-config";
 import { Link } from "react-router-dom";
 import {
@@ -19,14 +19,16 @@ const Login = () => {
 
   const login = async () => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(async (response) => {
-        console.log(response.user);
-      })
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(async (response) => {
+          console.log(response.user);
+        });
     } catch (error) {
       console.log("Incorrect email or password");
     }
-  }
+  };
 
   return (
     <Box
@@ -46,16 +48,31 @@ const Login = () => {
 
         <FormControl>
           <FormLabel>E-mail Address</FormLabel>
-          <Input rounded="none" variant="filled" onChange={(e) => {loginEmail(e.target.value)}}/>
+          <Input
+            rounded="none"
+            variant="filled"
+            onChange={(e) => {
+              loginEmail(e.target.value);
+            }}
+          />
         </FormControl>
         <FormControl>
           <FormLabel>Password</FormLabel>
-          <Input rounded="none" variant="filled" type="password" onChange={(e) => {loginPassword(e.target.value)}}/>
+          <Input
+            rounded="none"
+            variant="filled"
+            type="password"
+            onChange={(e) => {
+              loginPassword(e.target.value);
+            }}
+          />
         </FormControl>
         <HStack w="full" justify="space-between">
-          <Button variant="link" colorScheme="blue">
-            Forget Password?
-          </Button>
+          <Link to="/forgotpassword">
+            <Button variant="link" colorScheme="blue">
+              Forget Password?
+            </Button>
+          </Link>
         </HStack>
         <HStack alignSelf={"end"}>
           <Link to="/signup">

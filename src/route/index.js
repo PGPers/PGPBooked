@@ -9,6 +9,7 @@ import NotFound from "../components/NotFound";
 import Login from "../components/Login";
 import { ChakraProvider } from "@chakra-ui/react";
 import Signup from "../components/Signup";
+import ForgotPassword from "../components/ForgotPassword";
 
 const appRoutes = [
   { key: 1, path: "/", element: <Dashboard /> },
@@ -18,6 +19,7 @@ const appRoutes = [
   { key: 5, path: "*", element: <NotFound /> },
   { key: 6, path: "/login", element: <Login /> },
   { key: 7, path: "/signup", element: <Signup /> },
+  { key: 8, path: "/forgotpassword", element: <ForgotPassword /> },
 ];
 
 const AppRouter = () => {

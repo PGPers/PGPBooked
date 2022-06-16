@@ -16,7 +16,7 @@ const firebaseConfig = {
   storageBucket: "pgpbooked.appspot.com",
   messagingSenderId: "325511325459",
   appId: "1:325511325459:web:84153d6ea55c8c149a5ce6",
-  measurementId: "G-QGPZ0FQER5"
+  measurementId: "G-QGPZ0FQER5",
 };
 
 // Initialize Firebase
