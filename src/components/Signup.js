@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { firebase } from "../firebase-config";
 import { Link } from "react-router-dom";
+import { AddUser } from "../firebase/AddUser";
 import {
   Box,
   VStack,
@@ -25,6 +26,9 @@ const Signup = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setRegisterFirstName] = useState("");
+  const [lastName, setRegisterLastName] = useState("");
+  const [phone, setRegisterPhone] = useState("");
 
   const register = async () => {
     if (!isValidEmail(registerEmail)) {
@@ -39,6 +43,7 @@ const Signup = () => {
         .then(async (response) => {
           response.user.sendEmailVerification();
           console.log(response.user);
+          await AddUser(response.user.uid, response.user.email, firstName, lastName, phone);
         })
         firebase.auth().signOut();
       } catch (error) {
@@ -74,6 +79,18 @@ const Signup = () => {
         <FormControl>
           <FormLabel>Re-enter Password</FormLabel>
           <Input rounded="none" variant="filled" type="password" onChange={(e) => {setConfirmPassword(e.target.value)}}/>
+        </FormControl>
+        <FormControl>
+          <FormLabel>First Name</FormLabel>
+          <Input rounded="none" variant="filled" onChange={(e) => {setRegisterFirstName(e.target.value)}}/>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Last Name</FormLabel>
+          <Input rounded="none" variant="filled" onChange={(e) => {setRegisterLastName(e.target.value)}}/>
+        </FormControl>
+        <FormControl>
+          <FormLabel>Phone Number</FormLabel>
+          <Input rounded="none" variant="filled" onChange={(e) => {setRegisterPhone(e.target.value)}}/>
         </FormControl>
         <HStack alignSelf={"end"}>
           <Link to="/login">
