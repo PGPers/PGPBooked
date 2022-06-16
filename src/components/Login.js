@@ -11,12 +11,18 @@ import {
   Input,
   HStack,
   Button,
+  FormHelperText,
+  FormErrorMessage,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 
 const Login = () => {
   const [email, loginEmail] = useState("");
   const [password, loginPassword] = useState("");
-
+  const isBlankEmail = email === "";
+  const isBlankPassword = password === "";
+  const [error, setError] = useState("");
   const login = async () => {
     try {
       await firebase
@@ -27,6 +33,7 @@ const Login = () => {
         });
     } catch (error) {
       console.log("Incorrect email or password");
+      setError("Incorrect email or password");
     }
   };
 
@@ -46,27 +53,48 @@ const Login = () => {
           <Text>Enter your e-mail and password to login</Text>
         </VStack>
 
-        <FormControl>
-          <FormLabel>E-mail Address</FormLabel>
+        <FormControl isInvalid={isBlankEmail}>
+          <FormLabel htmlFor="email">Email Adress</FormLabel>
           <Input
-            rounded="none"
-            variant="filled"
+            id="email"
+            type="email"
+            placeholder="Email Address"
+            value={email}
             onChange={(e) => {
               loginEmail(e.target.value);
             }}
           />
+          {isBlankEmail ? (
+            <FormErrorMessage>Email is required.</FormErrorMessage>
+          ) : (
+            true
+          )}
         </FormControl>
-        <FormControl>
-          <FormLabel>Password</FormLabel>
+
+        <FormControl isInvalid={isBlankPassword}>
+          <FormLabel htmlFor="password">Password</FormLabel>
           <Input
-            rounded="none"
-            variant="filled"
+            id="password"
             type="password"
+            placeholder="Password"
+            variant="filled"
+            value={password}
             onChange={(e) => {
               loginPassword(e.target.value);
             }}
           />
+          {!isBlankPassword ? (
+            true
+          ) : (
+            <FormErrorMessage>Password is blank.</FormErrorMessage>
+          )}
         </FormControl>
+        {error ? (
+          <Alert status="error">
+            <AlertIcon />
+            {error}
+          </Alert>
+        ) : null}
         <HStack w="full" justify="space-between">
           <Link to="/forgotpassword">
             <Button variant="link" colorScheme="blue">

@@ -6,8 +6,8 @@ import Logo from "../images/logo192.png";
 const navOptions = [
   { key: 0, label: <Link to="/">Dashboard</Link> },
   { key: 1, label: <Link to="/login">Login</Link> },
-  { key: 2, label: <Link to="/product">Product</Link> },
-  { key: 3, label: <Link to="/report">Report</Link> },
+  { key: 2, label: <Link to="/newbooking">New Booking</Link> },
+  { key: 3, label: <Link to="/mybooking">My Booking</Link> },
   { key: 4, label: <Link to="/about">About</Link> },
 ];
 const { Header } = Layout;
