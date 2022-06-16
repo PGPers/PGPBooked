@@ -53,7 +53,7 @@ const Login = () => {
         </VStack>
 
         <FormControl isInvalid={isBlankEmail}>
-          <FormLabel htmlFor="email">Email Adress</FormLabel>
+          <FormLabel htmlFor="email">Email Address</FormLabel>
           <Input
             id="email"
             type="email"
