@@ -9,5 +9,8 @@ export async function AddBooking(uid, facility, date, matric, numOfPeople, purpo
     numOfPeople: numOfPeople,
     purpose: purpose
   }
-  await firebase.firestore().collection('bookings').add(data);
+  const bookid = firebase.firestore().collection('bookings').doc();
+  await bookid.set(data);
+  console.log(bookid.id);
+  await firebase.firestore().collection(`users/${uid}/bookings`).doc(bookid.id).set(data);
 }
