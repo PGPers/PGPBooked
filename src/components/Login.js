@@ -16,12 +16,15 @@ import {
   AlertIcon,
 } from "@chakra-ui/react";
 
+import "./Login.css";
+
 const Login = () => {
   const [email, loginEmail] = useState("");
   const [password, loginPassword] = useState("");
-  const isBlankEmail = email === "";
-  const isBlankPassword = password === "";
+  const isBlankEmail = email === "email";
+  const isBlankPassword = password === "password";
   const [error, setError] = useState("");
+
   const login = async () => {
     try {
       await firebase
@@ -55,9 +58,13 @@ const Login = () => {
         <FormControl isInvalid={isBlankEmail}>
           <FormLabel htmlFor="email">Email Address</FormLabel>
           <Input
+            className="input"
             id="email"
             type="email"
             placeholder="Email Address"
+            border={["none", "1px"]}
+            borderColor={["", "gray.300"]}
+            borderRadius={10}
             value={email}
             onChange={(e) => {
               loginEmail(e.target.value);
@@ -78,6 +85,9 @@ const Login = () => {
             placeholder="Password"
             variant="filled"
             value={password}
+            border={["none", "1px"]}
+            borderColor={["", "gray.300"]}
+            borderRadius={10}
             onChange={(e) => {
               loginPassword(e.target.value);
             }}

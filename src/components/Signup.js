@@ -12,6 +12,8 @@ import {
   Input,
   HStack,
   Button,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 
 function passwordTooShort(password) {
@@ -29,28 +31,41 @@ const Signup = () => {
   const [firstName, setRegisterFirstName] = useState("");
   const [lastName, setRegisterLastName] = useState("");
   const [phone, setRegisterPhone] = useState("");
+  const [error, setError] = useState("");
 
   const register = async () => {
     if (!isValidEmail(registerEmail)) {
       console.log("Email is not valid");
+      setError("Email is not valid");
     } else if (registerPassword !== confirmPassword) {
       console.log("Password does not match");
+      setError("Password does not match");
     } else if (passwordTooShort(registerPassword)) {
       console.log("Weak password: must at least 6 characters long");
+      setError("Weak password: must at least 6 characters long");
     } else {
       try {
-        await firebase.auth().createUserWithEmailAndPassword(registerEmail, registerPassword)
-        .then(async (response) => {
-          response.user.sendEmailVerification();
-          console.log(response.user);
-          await AddUser(response.user.uid, response.user.email, firstName, lastName, phone);
-        })
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(registerEmail, registerPassword)
+          .then(async (response) => {
+            response.user.sendEmailVerification();
+            console.log(response.user);
+            await AddUser(
+              response.user.uid,
+              response.user.email,
+              firstName,
+              lastName,
+              phone
+            );
+          });
         firebase.auth().signOut();
       } catch (error) {
         console.log(error.message);
+        setError(error.message);
       }
     }
-  }
+  };
 
   return (
     <Box
@@ -67,31 +82,113 @@ const Signup = () => {
           <Heading>Sign Up</Heading>
           <Text>Enter your e-mail and password to sign up</Text>
         </VStack>
-
-        <FormControl>
-          <FormLabel>E-mail Address</FormLabel>
-          <Input rounded="none" variant="filled" onChange={(e) => {setRegisterEmail(e.target.value)}}/>
-        </FormControl>
-        <FormControl>
-          <FormLabel>Password</FormLabel>
-          <Input rounded="none" variant="filled" type="password" onChange={(e) => {setRegisterPassword(e.target.value)}}/>
-        </FormControl>
-        <FormControl>
-          <FormLabel>Re-enter Password</FormLabel>
-          <Input rounded="none" variant="filled" type="password" onChange={(e) => {setConfirmPassword(e.target.value)}}/>
-        </FormControl>
-        <FormControl>
-          <FormLabel>First Name</FormLabel>
-          <Input rounded="none" variant="filled" onChange={(e) => {setRegisterFirstName(e.target.value)}}/>
-        </FormControl>
-        <FormControl>
-          <FormLabel>Last Name</FormLabel>
-          <Input rounded="none" variant="filled" onChange={(e) => {setRegisterLastName(e.target.value)}}/>
-        </FormControl>
-        <FormControl>
-          <FormLabel>Phone Number</FormLabel>
-          <Input rounded="none" variant="filled" onChange={(e) => {setRegisterPhone(e.target.value)}}/>
-        </FormControl>
+        <HStack spacing={10}>
+          <VStack>
+            <FormControl>
+              <FormLabel htmlFor="email">E-mail Address</FormLabel>
+              <Input
+                id="registerEmail"
+                type="email"
+                placeholder="Email Address"
+                value={registerEmail}
+                border={["none", "1px"]}
+                borderColor={["", "gray.300"]}
+                borderRadius={10}
+                onChange={(e) => {
+                  setRegisterEmail(e.target.value);
+                }}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <Input
+                id="registerPassword"
+                type="password"
+                placeholder="Password"
+                variant="filled"
+                value={registerPassword}
+                border={["none", "1px"]}
+                borderColor={["", "gray.300"]}
+                borderRadius={10}
+                onChange={(e) => {
+                  setRegisterPassword(e.target.value);
+                }}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Re-enter Password</FormLabel>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="Re-enter Password"
+                variant="filled"
+                value={confirmPassword}
+                border={["none", "1px"]}
+                borderColor={["", "gray.300"]}
+                borderRadius={10}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                }}
+              />
+            </FormControl>
+          </VStack>
+          <VStack>
+            <FormControl>
+              <FormLabel>First Name</FormLabel>
+              <Input
+                id="firstName"
+                type="name"
+                placeholder="First Name"
+                variant="filled"
+                value={firstName}
+                border={["none", "1px"]}
+                borderColor={["", "gray.300"]}
+                borderRadius={10}
+                onChange={(e) => {
+                  setRegisterFirstName(e.target.value);
+                }}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Last Name</FormLabel>
+              <Input
+                id="lastName"
+                type="name"
+                placeholder="Last Name"
+                variant="filled"
+                value={lastName}
+                border={["none", "1px"]}
+                borderColor={["", "gray.300"]}
+                borderRadius={10}
+                onChange={(e) => {
+                  setRegisterLastName(e.target.value);
+                }}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Phone Number</FormLabel>
+              <Input
+                id="phone"
+                type="phoneNumber"
+                placeholder="Phone Number"
+                variant="filled"
+                value={phone}
+                border={["none", "1px"]}
+                borderColor={["", "gray.300"]}
+                borderRadius={10}
+                onChange={(e) => {
+                  setRegisterPhone(e.target.value);
+                }}
+              />
+            </FormControl>
+          </VStack>
+        </HStack>
+        {error ? (
+          <Alert status="error">
+            <AlertIcon />
+            {error}
+          </Alert>
+        ) : null}
         <HStack alignSelf={"end"}>
           <Link to="/login">
             <Button variant="link" colorScheme="blue">
@@ -100,7 +197,7 @@ const Signup = () => {
           </Link>
         </HStack>
         <HStack alignSelf={"end"}>
-          <Button 
+          <Button
             onClick={register}
             rounded="none"
             colorScheme="blue"
