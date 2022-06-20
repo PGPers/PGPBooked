@@ -20,7 +20,7 @@ const MyBooking = () => {
       w={["full", "auto"]}
       alignSelf="end"
     >
-      Book
+      View
     </Button>
   </HStack>
   );
