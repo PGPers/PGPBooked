@@ -1,6 +1,5 @@
 import React from "react";
 import { firebase } from "../firebase-config";
-import { ViewMyBooking } from "../firebase/ViewMyBooking";
 import {
   HStack,
   Button,
@@ -9,7 +8,14 @@ import {
 const MyBooking = () => {
   const uid = firebase.auth().currentUser.uid;
   const viewBooking = async () => {
-    ViewMyBooking(uid);
+    const bookings = [];
+    const bookRef = firebase.firestore().collection(`users/${uid}/bookings`);
+    const bookSnap = await bookRef.get();
+    bookSnap.forEach(doc => {
+      console.log(doc.id, doc.data());
+      bookings.push(doc.data());
+    })
+    console.log(bookings);
   }
   return (
     <HStack alignSelf={"end"}>
