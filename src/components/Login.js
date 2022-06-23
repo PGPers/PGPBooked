@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { firebase } from "../firebase-config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   VStack,
@@ -24,6 +24,7 @@ const Login = () => {
   const isBlankEmail = email === "email";
   const isBlankPassword = password === "password";
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const login = async () => {
     try {
@@ -39,6 +40,7 @@ const Login = () => {
       console.log("Incorrect email or password");
       setError("Incorrect email or password");
     }
+    if (firebase.auth().currentUser) navigate("/dashboard");
   };
 
   return (
