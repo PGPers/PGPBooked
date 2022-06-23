@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { firebase } from "../firebase-config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AddUser } from "../firebase/AddUser";
 import {
   Box,
@@ -32,6 +32,7 @@ const Signup = () => {
   const [lastName, setRegisterLastName] = useState("");
   const [phone, setRegisterPhone] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const register = async () => {
     if (!isValidEmail(registerEmail)) {
@@ -60,6 +61,7 @@ const Signup = () => {
             );
           });
         firebase.auth().signOut();
+        navigate("/login");
       } catch (error) {
         console.log(error.message);
         setError(error.message);

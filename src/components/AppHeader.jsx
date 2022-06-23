@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import Logo from "../images/logo192.png";
 import { firebase } from "../firebase-config";
-import { Text } from "@chakra-ui/react";
 import { useState } from "react";
 
 const { Header } = Layout;
@@ -34,28 +33,27 @@ const navOptionsLoggedIn = [
   { key: 3, label: <Link to="/mybooking">My Booking</Link> },
 ];
 
-const navOpt = () => {
-  const user = firebase.auth().currentUser;
-  console.log(`navOpt = ${user}`);
-  if (user) return navOptionsLoggedIn;
-  return navOptions;
-};
-
 const AppHeader = () => {
-  const [currentUser, setCurrentUser] = useState(firebase.auth().currentUser);
+  const [loggedIn, setLoggedIn] = useState(false);
+  firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  })
   return (
     <>
       <Header>
         <div className="logo">
           <img width="50px" src={Logo} alt="logo" />
         </div>
-        <Text color={"white"}>{`Logged in = ${currentUser}`}</Text>
         <div className="nav-bar">
           <Menu
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={["0"]}
-            items={navOpt()}
+            items={loggedIn? navOptionsLoggedIn: navOptions}
           />
         </div>
       </Header>
