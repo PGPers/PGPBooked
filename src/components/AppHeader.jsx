@@ -6,32 +6,6 @@ import { firebase } from "../firebase-config";
 import { useState } from "react";
 
 const { Header } = Layout;
-const signOut = () => {
-  firebase
-    .auth()
-    .signOut()
-    .then(() => {
-      console.log("Signed Out");
-    })
-    .catch((e) => {
-      console.error("Sign Out Error", e);
-    });
-};
-
-const navOptions = [
-  { key: 0, label: <Link to="/">Dashboard</Link> },
-  { key: 1, label: <Link to="/login">Login</Link> },
-  { key: 2, label: <Link to="/newbooking">New Booking</Link> },
-  { key: 3, label: <Link to="/mybooking">My Booking</Link> },
-  // { key: 4, label: <Link to="/about">About</Link> },
-];
-
-const navOptionsLoggedIn = [
-  { key: 0, label: <Link to="/">Dashboard</Link> },
-  { key: 4, label: <div onClick={signOut()}>Logout</div> },
-  { key: 2, label: <Link to="/newbooking">New Booking</Link> },
-  { key: 3, label: <Link to="/mybooking">My Booking</Link> },
-];
 
 const AppHeader = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -42,6 +16,34 @@ const AppHeader = () => {
       setLoggedIn(false);
     }
   })
+
+  const signOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("Signed Out");
+      })
+      .catch((e) => {
+        console.error("Sign Out Error", e);
+      });
+  };
+  
+  const navOptions = [
+    { key: 0, label: <Link to="/">Dashboard</Link> },
+    { key: 1, label: <Link to="/login">Login</Link> },
+    { key: 2, label: <Link to="/newbooking">New Booking</Link> },
+    { key: 3, label: <Link to="/mybooking">My Booking</Link> },
+    // { key: 4, label: <Link to="/about">About</Link> },
+  ];
+  
+  const navOptionsLoggedIn = [
+    { key: 0, label: <Link to="/">Dashboard</Link> },
+    { key: 4, label: <div onClick={signOut}>Logout</div> },
+    { key: 2, label: <Link to="/newbooking">New Booking</Link> },
+    { key: 3, label: <Link to="/mybooking">My Booking</Link> },
+  ];
+
   return (
     <>
       <Header>
