@@ -32,6 +32,8 @@ const Login = () => {
         .signInWithEmailAndPassword(email, password)
         .then(async (response) => {
           console.log(response.user);
+          console.log(response.data);
+          console.log(response.status);
         });
     } catch (error) {
       console.log("Incorrect email or password");
