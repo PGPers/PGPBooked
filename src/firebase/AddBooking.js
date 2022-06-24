@@ -1,7 +1,9 @@
 import { firebase } from "../firebase-config";
+import moment from 'moment';
 
-export async function AddBooking(uid, facility, date, matric, numOfPeople, purpose) {
+export async function AddBooking(uid, facility, date, matric, numOfPeople, purpose, startTime, endTime) {
   const bookid = firebase.firestore().collection('bookings').doc();
+  const dateTime = moment(`${date} ${startTime}`, "DD/MM/YYYY hhmm").toDate();
   const data = {
     uid: uid,
     facility: facility,
@@ -9,7 +11,10 @@ export async function AddBooking(uid, facility, date, matric, numOfPeople, purpo
     matric: matric,
     numOfPeople: numOfPeople,
     purpose: purpose,
-    bookid: bookid.id
+    bookid: bookid.id,
+    startTime: startTime,
+    endTime: endTime,
+    dateTime: dateTime
   }
   await bookid.set(data);
   await firebase.firestore().collection(`users/${uid}/bookings`).doc(bookid.id).set(data);

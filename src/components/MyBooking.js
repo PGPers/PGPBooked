@@ -1,8 +1,6 @@
 import React from "react";
 import { firebase } from "../firebase-config";
 import {
-  HStack,
-  Button,
   TableContainer,
   Table,
   TableCaption,
@@ -57,11 +55,10 @@ const MyBooking = () => {
           <Thead>
             <Tr>
               <Th>Booking ID</Th>
-              <Th>Matric</Th>
               <Th>Facility</Th>
               <Th>Purpose</Th>
               <Th>No. of People</Th>
-              <Th>Date Booked</Th>
+              <Th>Date</Th>
               <Th>Start Time</Th>
               <Th>End Time</Th>
               <Th>Booking Status</Th>
@@ -73,13 +70,12 @@ const MyBooking = () => {
                 return (
                   <tr>
                     <td>{item.bookid}</td>
-                    <td>{item.matric} </td>
                     <td>{item.facility}</td>
                     <td>{item.purpose}</td>
                     <td>{item.numOfPeople}</td>
-                    <td>{convertDate(item.date)}</td>
-                    <td>0700</td>
-                    <td>0900</td>
+                    <td>{item.date}</td>
+                    <td>{item.startTime}</td>
+                    <td>{item.endTime}</td>
                     <td>CONFIRMED</td>
                   </tr>
                 );

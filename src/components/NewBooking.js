@@ -22,14 +22,16 @@ import { DatePicker } from "chakra-ui-date-input";
 
 const NewBooking = () => {
   const [facility, setFacility] = useState("");
-  const date = new Date();
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [matric, setMatric] = useState("");
   const [purpose, setPurpose] = useState("");
   const [numOfPeople, setNumOfPeople] = useState("");
   const uid = firebase.auth().currentUser.uid;
 
   const makeBooking = async () => {
-    await AddBooking(uid, facility, date, matric, numOfPeople, purpose);
+    await AddBooking(uid, facility, date, matric, numOfPeople, purpose, startTime, endTime);
   };
 
   return (
@@ -105,7 +107,7 @@ const NewBooking = () => {
               <DatePicker
                 placeholder="Date"
                 name="date"
-                onChange={(date: string) => console.log(date)}
+                onChange={(e) => setDate(e)}
               />
             </FormControl>
             <FormControl isRequired>
@@ -113,9 +115,9 @@ const NewBooking = () => {
               <Select
                 id="startTime"
                 placeholder="Start Time"
-                // onChange={(e) => {
-                //   setFacility(e.target.value);
-                // }}
+                onChange={(e) => {
+                  setStartTime(e.target.value);
+                }}
               >
                 <option>0900</option>
                 <option>1000</option>
@@ -139,9 +141,9 @@ const NewBooking = () => {
               <Select
                 id="endTime"
                 placeholder="End Time"
-                // onChange={(e) => {
-                //   setFacility(e.target.value);
-                // }}
+                onChange={(e) => {
+                  setEndTime(e.target.value);
+                }}
               >
                 <option>0900</option>
                 <option>1000</option>
