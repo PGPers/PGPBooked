@@ -28,7 +28,7 @@ const MyBooking = () => {
   useEffect(() => {
     async function fetchData() {
       const dummyBookings = [];
-      const bookRef = firebase.firestore().collection(`users/${uid}/bookings`);
+      const bookRef = firebase.firestore().collection(`users/${uid}/bookings`).orderBy('dateTime', 'desc');
       const bookSnap = await bookRef.get();
       bookSnap.forEach((doc) => {
         console.log(doc.id, doc.data());
@@ -36,16 +36,9 @@ const MyBooking = () => {
       });
       setBookings(dummyBookings);
       setBusy(false);
-      console.log(bookings);
     }
     fetchData();
   }, []);
-
-  const convertDate = (date) => {
-    var t = new Date(1970, 0, 1); // Epoch
-    t.setSeconds(date.seconds);
-    return t.toLocaleString();
-  };
 
   return (
     <div>
