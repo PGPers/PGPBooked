@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export async function AddBooking(uid, facility, date, matric, numOfPeople, purpose, startTime, endTime) {
   const bookid = firebase.firestore().collection('bookings').doc();
-  const dateTime = moment(`${date} ${startTime}`, "DD/MM/YYYY hhmm").toDate();
+  const dateTime = moment(`${date} ${startTime}`, "DD/MM/YYYY HHmm").toDate();
   const data = {
     uid: uid,
     facility: facility,
