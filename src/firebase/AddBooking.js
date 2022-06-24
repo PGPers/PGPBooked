@@ -14,7 +14,8 @@ export async function AddBooking(uid, facility, date, matric, numOfPeople, purpo
     bookid: bookid.id,
     startTime: startTime,
     endTime: endTime,
-    dateTime: dateTime
+    dateTime: dateTime,
+    status: 'CONFIRMED'
   }
   await bookid.set(data);
   await firebase.firestore().collection(`users/${uid}/bookings`).doc(bookid.id).set(data);
