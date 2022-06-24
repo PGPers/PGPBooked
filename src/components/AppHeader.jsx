@@ -15,7 +15,7 @@ const AppHeader = () => {
     } else {
       setLoggedIn(false);
     }
-  })
+  });
 
   const signOut = () => {
     firebase
@@ -28,7 +28,7 @@ const AppHeader = () => {
         console.error("Sign Out Error", e);
       });
   };
-  
+
   const navOptions = [
     { key: 0, label: <Link to="/">Dashboard</Link> },
     { key: 1, label: <Link to="/login">Login</Link> },
@@ -36,10 +36,17 @@ const AppHeader = () => {
     { key: 3, label: <Link to="/mybooking">My Booking</Link> },
     // { key: 4, label: <Link to="/about">About</Link> },
   ];
-  
+
   const navOptionsLoggedIn = [
     { key: 0, label: <Link to="/">Dashboard</Link> },
-    { key: 4, label: <div onClick={signOut}>Logout</div> },
+    {
+      key: 4,
+      label: (
+        <Link to="/" onClick={signOut}>
+          Logout
+        </Link>
+      ),
+    },
     { key: 2, label: <Link to="/newbooking">New Booking</Link> },
     { key: 3, label: <Link to="/mybooking">My Booking</Link> },
   ];
@@ -55,7 +62,7 @@ const AppHeader = () => {
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={["0"]}
-            items={loggedIn? navOptionsLoggedIn: navOptions}
+            items={loggedIn ? navOptionsLoggedIn : navOptions}
           />
         </div>
       </Header>
