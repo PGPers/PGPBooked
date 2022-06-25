@@ -17,8 +17,27 @@ import {
   Td,
   Tbody,
   useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  HStack,
+  VStack,
+  FormControl,
+  FormLabel,
+  Select,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { DatePicker } from "chakra-ui-date-input";
+import { ChangeBooking } from "../firebase/ChangeBooking";
 
 const MyBooking = () => {
   const uid = firebase.auth().currentUser.uid;
@@ -26,6 +45,15 @@ const MyBooking = () => {
   const [bookings, setBookings] = useState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
+  const [openChange, setOpenChange] = useState(false);
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [numOfPeople, setNumOfPeople] = useState("");
+
+  const makeChange = async (bookid) => {
+    await ChangeBooking(bookid, uid, date, numOfPeople, startTime, endTime);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -66,6 +94,7 @@ const MyBooking = () => {
               <Th>End Time</Th>
               <Th>Status</Th>
               <Th></Th>
+              <Th></Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -80,6 +109,114 @@ const MyBooking = () => {
                     <Td>{item.startTime}</Td>
                     <Td>{item.endTime}</Td>
                     <Td>{item.status}</Td>
+                    <Td>
+                      <Button
+                      disabled={item.status === 'CANCELED'}
+                      onClick={() => setOpenChange(true)}
+                      colorScheme="green"
+                      size="sm">
+                      Change
+                      </Button>
+                      <Modal closeOnOverlayClick={false} isOpen={openChange} onClose={() => setOpenChange(false)}>
+                        <ModalOverlay />
+                        <ModalContent>
+                          <ModalHeader>Change Booking</ModalHeader>
+                          <ModalCloseButton />
+                          <ModalBody>
+                          <HStack>
+                            <VStack>
+                              <FormControl isRequired>
+                                <FormLabel htmlFor="startTime">Date</FormLabel>
+                                <DatePicker
+                                  placeholder="Date"
+                                  name="date"
+                                  onChange={(e) => setDate(e)}
+                                />
+                              </FormControl>
+                              <FormControl isRequired>
+                                <FormLabel htmlFor="amount">Number of People</FormLabel>
+                                <NumberInput
+                                  max={50}
+                                  min={1}
+                                  onChange={(e) => {
+                                    setNumOfPeople(e);
+                                  }}
+                                >
+                                  <NumberInputField id="amount" />
+                                  <NumberInputStepper>
+                                    <NumberIncrementStepper />
+                                    <NumberDecrementStepper />
+                                  </NumberInputStepper>
+                                </NumberInput>
+                              </FormControl>
+                            </VStack>
+                            <VStack>
+                              <FormControl isRequired>
+                                <FormLabel htmlFor="startTime">Start Time</FormLabel>
+                                <Select
+                                  id="startTime"
+                                  placeholder="Start Time"
+                                  onChange={(e) => {
+                                    setStartTime(e.target.value);
+                                  }}
+                                >
+                                  <option>0900</option>
+                                  <option>1000</option>
+                                  <option>1100</option>
+                                  <option>1200</option>
+                                  <option>1300</option>
+                                  <option>1400</option>
+                                  <option>1500</option>
+                                  <option>1600</option>
+                                  <option>1700</option>
+                                  <option>1800</option>
+                                  <option>1900</option>
+                                  <option>2000</option>
+                                  <option>2100</option>
+                                  <option>2200</option>
+                                </Select>
+                              </FormControl>
+
+                              <FormControl isRequired>
+                                <FormLabel htmlFor="endTime">End Time</FormLabel>
+                                <Select
+                                  id="endTime"
+                                  placeholder="End Time"
+                                  onChange={(e) => {
+                                    setEndTime(e.target.value);
+                                  }}
+                                >
+                                  <option>0900</option>
+                                  <option>1000</option>
+                                  <option>1100</option>
+                                  <option>1200</option>
+                                  <option>1300</option>
+                                  <option>1400</option>
+                                  <option>1500</option>
+                                  <option>1600</option>
+                                  <option>1700</option>
+                                  <option>1800</option>
+                                  <option>1900</option>
+                                  <option>2000</option>
+                                  <option>2100</option>
+                                  <option>2200</option>
+                                </Select>
+                              </FormControl>
+                            </VStack>
+                          </HStack>
+                          </ModalBody>
+
+                          <ModalFooter>
+                            <Button variant="ghost" mr={3} onClick={() => setOpenChange(false)}>
+                              Close
+                            </Button>
+                            <Button colorScheme='green' onClick={() => {makeChange(item.bookid); setOpenChange(false);}}>
+                              Change Booking
+                            </Button>
+                          </ModalFooter>
+                        </ModalContent>
+                      </Modal>
+                    </Td>
                     <Td>
                       <Button
                       disabled={item.status === 'CANCELED'}
