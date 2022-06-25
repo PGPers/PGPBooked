@@ -82,6 +82,7 @@ const MyBooking = () => {
                     <Td>{item.status}</Td>
                     <Td>
                       <Button
+                      disabled={item.status === 'CANCELED'}
                       onClick={onOpen}
                       colorScheme="red"
                       size="sm">
