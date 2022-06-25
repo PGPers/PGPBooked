@@ -40,7 +40,7 @@ const AppHeader = () => {
   const navOptionsLoggedIn = [
     { key: 0, label: <Link to="/">Dashboard</Link> },
     {
-      key: 4,
+      key: 1,
       label: (
         <Link to="/" onClick={signOut}>
           Logout
