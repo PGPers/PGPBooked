@@ -51,7 +51,7 @@ const MyBooking = () => {
   const [endTime, setEndTime] = useState("");
   const [numOfPeople, setNumOfPeople] = useState("");
   const [onDeleteItem, setOnDeleteItem] = useState("");
-  const [onChangeItem, setOnChangeItem] = useState("");
+  const [onChangeItem, setOnChangeItem] = useState({});
 
   const [refreshKey, setRefreshKey] = useState(0);
 
@@ -155,7 +155,7 @@ const MyBooking = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      {/* This is Alert Dialog for DELETE */}
+      {/* This is Alert Dialog for CANCEL */}
       <AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
@@ -200,12 +200,13 @@ const MyBooking = () => {
           <ModalHeader>Change Booking</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            <i>Please fill all fields</i>
             <HStack>
               <VStack>
                 <FormControl isRequired>
                   <FormLabel htmlFor="startTime">Date</FormLabel>
                   <DatePicker
-                    value={onChangeItem?.date || "Date"}
+                    defaultValue={onChangeItem?.date || "Date"}
                     name="date"
                     onChange={(e) => setDate(e)}
                   />
@@ -233,7 +234,7 @@ const MyBooking = () => {
                   <FormLabel htmlFor="startTime">Start Time</FormLabel>
                   <Select
                     id="startTime"
-                    value={onChangeItem?.startTime || "Start Time"}
+                    defaultValue={onChangeItem?.startTime || "0900"}
                     onChange={(e) => {
                       setStartTime(e.target.value);
                     }}
@@ -259,7 +260,7 @@ const MyBooking = () => {
                   <FormLabel htmlFor="endTime">End Time</FormLabel>
                   <Select
                     id="endTime"
-                    value={onChangeItem?.endTime || "End Time"}
+                    defaultValue={onChangeItem?.endTime || "0900"}
                     onChange={(e) => {
                       setEndTime(e.target.value);
                     }}
