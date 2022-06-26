@@ -38,6 +38,7 @@ import {
 import { useEffect, useState } from "react";
 import { DatePicker } from "chakra-ui-date-input";
 import { ChangeBooking } from "../firebase/ChangeBooking";
+import moment from "moment";
 
 const MyBooking = () => {
   const uid = firebase.auth().currentUser.uid;
@@ -52,7 +53,7 @@ const MyBooking = () => {
   const [numOfPeople, setNumOfPeople] = useState("");
   const [onDeleteItem, setOnDeleteItem] = useState("");
   const [onChangeItem, setOnChangeItem] = useState({});
-
+  const today = moment().format('DD/MM/YYYY');
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
@@ -206,7 +207,7 @@ const MyBooking = () => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="startTime">Date</FormLabel>
                   <DatePicker
-                    defaultValue={onChangeItem?.date || "Date"}
+                    defaultValue={onChangeItem?.date || today}
                     name="date"
                     onChange={(e) => setDate(e)}
                   />
