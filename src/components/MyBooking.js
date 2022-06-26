@@ -47,13 +47,13 @@ const MyBooking = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef();
   const [openChange, setOpenChange] = useState(false);
-  const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [numOfPeople, setNumOfPeople] = useState("");
+  const [startTime, setStartTime] = useState("0900");
+  const [endTime, setEndTime] = useState("0900");
+  const [numOfPeople, setNumOfPeople] = useState(1);
   const [onDeleteItem, setOnDeleteItem] = useState("");
   const [onChangeItem, setOnChangeItem] = useState({});
   const today = moment().format('DD/MM/YYYY');
+  const [date, setDate] = useState(today);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
@@ -207,7 +207,7 @@ const MyBooking = () => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="startTime">Date</FormLabel>
                   <DatePicker
-                    defaultValue={onChangeItem?.date || today}
+                    defaultValue={today}
                     name="date"
                     onChange={(e) => setDate(e)}
                   />
@@ -215,7 +215,7 @@ const MyBooking = () => {
                 <FormControl isRequired>
                   <FormLabel htmlFor="amount">Number of People</FormLabel>
                   <NumberInput
-                    defaultValue={onChangeItem?.numOfPeople || "No. of People"}
+                    defaultValue={1}
                     max={50}
                     min={1}
                     onChange={(e) => {
@@ -235,7 +235,7 @@ const MyBooking = () => {
                   <FormLabel htmlFor="startTime">Start Time</FormLabel>
                   <Select
                     id="startTime"
-                    defaultValue={onChangeItem?.startTime || "0900"}
+                    defaultValue={"0900"}
                     onChange={(e) => {
                       setStartTime(e.target.value);
                     }}
@@ -261,7 +261,7 @@ const MyBooking = () => {
                   <FormLabel htmlFor="endTime">End Time</FormLabel>
                   <Select
                     id="endTime"
-                    defaultValue={onChangeItem?.endTime || "0900"}
+                    defaultValue={"0900"}
                     onChange={(e) => {
                       setEndTime(e.target.value);
                     }}
