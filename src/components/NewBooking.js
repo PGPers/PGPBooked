@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { React, useState } from "react";
 import { firebase } from "../firebase-config";
 import { AddBooking } from "../firebase/AddBooking";
 import {
@@ -19,6 +19,7 @@ import {
   NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { DatePicker } from "chakra-ui-date-input";
+import { useNavigate } from "react-router-dom";
 
 const NewBooking = () => {
   const [facility, setFacility] = useState("");
@@ -30,8 +31,20 @@ const NewBooking = () => {
   const [numOfPeople, setNumOfPeople] = useState("");
   const uid = firebase.auth().currentUser.uid;
 
+  let navigate = useNavigate();
+
   const makeBooking = async () => {
-    await AddBooking(uid, facility, date, matric, numOfPeople, purpose, startTime, endTime);
+    await AddBooking(
+      uid,
+      facility,
+      date,
+      matric,
+      numOfPeople,
+      purpose,
+      startTime,
+      endTime
+    );
+    navigate("../mybooking");
   };
 
   return (

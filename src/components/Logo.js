@@ -1,5 +1,5 @@
 import { Text, chakra } from "@chakra-ui/react";
-import "@fontsource/league-spartan/700.css"; 
+import "@fontsource/league-spartan/700.css";
 
 export default function Logo({ ...props }) {
   return (
