@@ -44,6 +44,10 @@ const Signup = () => {
     } else if (passwordTooShort(registerPassword)) {
       console.log("Weak password: must at least 6 characters long");
       setError("Weak password: must at least 6 characters long");
+    } else if (firstName === "" || lastName === "") {
+      setError("Please fill in your name");
+    } else if (phone === "") {
+      setError("Please fill in your phone number");
     } else {
       try {
         await firebase
