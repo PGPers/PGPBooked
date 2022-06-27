@@ -11,6 +11,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 import Signup from "../components/Signup";
 import ForgotPassword from "../components/ForgotPassword";
 import ProtectedRoutes from "./ProtectedRoutes";
+import Confirmation from "../components/Confirmation";
+
+import { useEffect, useState } from "react";
+import { firebase } from "../firebase-config";
 
 const appRoutes = [
   { key: 1, path: "/", element: <Dashboard /> },
@@ -26,7 +30,41 @@ const protectedRoutes = [
   { key: 4, path: "/mybooking", element: <MyBooking /> },
 ];
 
+const bookengs = [{ path: "confirmation/fHI07FTGEcsUQpKDGjrl" }];
 const AppRouter = () => {
+  const uid = firebase.auth().currentUser
+    ? firebase.auth().currentUser.uid
+    : null;
+  const [isBusy, setBusy] = useState(true);
+  const [bookings, setBookings] = useState();
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const dummyBookings = [];
+  //     const bookRef = firebase
+  //       .firestore()
+  //       .collection(`users/${uid}/bookings`)
+  //       .orderBy("dateTime", "desc");
+  //     const bookSnap = await bookRef.get();
+  //     const IDKey = 0;
+  //     bookSnap.forEach((doc) => {
+  //       // console.log(doc.id, doc.data());
+  //       // dummyBookings.push(doc.data());
+  //       const bookid = doc.data().bookid;
+  //       dummyBookings.push({
+  //         path: "confirmation/" + bookid,
+  //       });
+  //     });
+  //     setBookings(dummyBookings);
+  //     console.log("bookings routes");
+  //     console.log(bookings);
+  //     console.log(bookengs);
+  //     setBusy(false);
+  //   }
+  //   fetchData();
+  // }, [refreshKey]);
+
   return (
     <ChakraProvider>
       <BrowserRouter>
@@ -39,6 +77,9 @@ const AppRouter = () => {
               <Route element={<ProtectedRoutes />}>
                 <Route {...route} />
               </Route>
+            ))}
+            {bookengs.map((route) => (
+              <Route {...route} element={<Confirmation />} />
             ))}
           </Routes>
         </AppLayout>

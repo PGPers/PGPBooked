@@ -17,6 +17,14 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import { DatePicker } from "chakra-ui-date-input";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +38,7 @@ const NewBooking = () => {
   const [purpose, setPurpose] = useState("");
   const [numOfPeople, setNumOfPeople] = useState("");
   const uid = firebase.auth().currentUser.uid;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   let navigate = useNavigate();
 
@@ -48,36 +57,37 @@ const NewBooking = () => {
   };
 
   return (
-    <Box
-      w={["full", "md"]}
-      p={[8, 10]}
-      mt={[20, "1vh"]}
-      mx="auto"
-      border={["none", "1px"]}
-      borderColor={["", "gray.300"]}
-      borderRadius={10}
-    >
-      <VStack spacing={4} align="flex-start" w="full">
-        <VStack spacing={1} align={["flex-start", "center"]} w="full">
-          <Heading>Make a Booking</Heading>
-          <Text>Enter your booking details</Text>
-        </VStack>
-        <HStack>
-          <VStack>
-            <FormControl isRequired>
-              <FormLabel htmlFor="facility">Choose a Facility</FormLabel>
-              <Select
-                id="facility"
-                placeholder="Select facility"
-                onChange={(e) => {
-                  setFacility(e.target.value);
-                }}
-              >
-                <option>Badminton Court</option>
-                <option>Music Room</option>
-              </Select>
-            </FormControl>
-            {/* <FormControl isRequired>
+    <div>
+      <Box
+        w={["full", "md"]}
+        p={[8, 10]}
+        mt={[20, "1vh"]}
+        mx="auto"
+        border={["none", "1px"]}
+        borderColor={["", "gray.300"]}
+        borderRadius={10}
+      >
+        <VStack spacing={4} align="flex-start" w="full">
+          <VStack spacing={1} align={["flex-start", "center"]} w="full">
+            <Heading>Make a Booking</Heading>
+            <Text>Enter your booking details</Text>
+          </VStack>
+          <HStack>
+            <VStack>
+              <FormControl isRequired>
+                <FormLabel htmlFor="facility">Choose a Facility</FormLabel>
+                <Select
+                  id="facility"
+                  placeholder="Select facility"
+                  onChange={(e) => {
+                    setFacility(e.target.value);
+                  }}
+                >
+                  <option>Badminton Court</option>
+                  <option>Music Room</option>
+                </Select>
+              </FormControl>
+              {/* <FormControl isRequired>
               <FormLabel htmlFor="matric">Matric No</FormLabel>
               <Input
                 id="matric"
@@ -87,108 +97,155 @@ const NewBooking = () => {
                 }}
               />
             </FormControl> */}
-            <FormControl isRequired>
-              <FormLabel htmlFor="purpose">Purpose</FormLabel>
-              <Input
-                id="purpose"
-                placeholder="Purpose"
-                onChange={(e) => {
-                  setPurpose(e.target.value);
-                }}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel htmlFor="amount">Number of People</FormLabel>
-              <NumberInput
-                max={50}
-                min={1}
-                onChange={(e) => {
-                  setNumOfPeople(e);
-                }}
-              >
-                <NumberInputField id="amount" />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </FormControl>
-          </VStack>
-          <VStack>
-            <FormControl isRequired>
-              <FormLabel htmlFor="startTime">Date</FormLabel>
-              <DatePicker
-                placeholder="Date"
-                name="date"
-                onChange={(e) => setDate(e)}
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel htmlFor="startTime">Start Time</FormLabel>
-              <Select
-                id="startTime"
-                placeholder="Start Time"
-                onChange={(e) => {
-                  setStartTime(e.target.value);
-                }}
-              >
-                <option>0900</option>
-                <option>1000</option>
-                <option>1100</option>
-                <option>1200</option>
-                <option>1300</option>
-                <option>1400</option>
-                <option>1500</option>
-                <option>1600</option>
-                <option>1700</option>
-                <option>1800</option>
-                <option>1900</option>
-                <option>2000</option>
-                <option>2100</option>
-                <option>2200</option>
-              </Select>
-            </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="purpose">Purpose</FormLabel>
+                <Input
+                  id="purpose"
+                  placeholder="Purpose"
+                  onChange={(e) => {
+                    setPurpose(e.target.value);
+                  }}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="amount">Number of People</FormLabel>
+                <NumberInput
+                  max={50}
+                  min={1}
+                  onChange={(e) => {
+                    setNumOfPeople(e);
+                  }}
+                >
+                  <NumberInputField id="amount" />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+            </VStack>
+            <VStack>
+              <FormControl isRequired>
+                <FormLabel htmlFor="startTime">Date</FormLabel>
+                <DatePicker
+                  placeholder="Date"
+                  name="date"
+                  onChange={(e) => setDate(e)}
+                />
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="startTime">Start Time</FormLabel>
+                <Select
+                  id="startTime"
+                  placeholder="Start Time"
+                  onChange={(e) => {
+                    setStartTime(e.target.value);
+                  }}
+                >
+                  <option>0900</option>
+                  <option>1000</option>
+                  <option>1100</option>
+                  <option>1200</option>
+                  <option>1300</option>
+                  <option>1400</option>
+                  <option>1500</option>
+                  <option>1600</option>
+                  <option>1700</option>
+                  <option>1800</option>
+                  <option>1900</option>
+                  <option>2000</option>
+                  <option>2100</option>
+                  <option>2200</option>
+                </Select>
+              </FormControl>
 
-            <FormControl isRequired>
-              <FormLabel htmlFor="endTime">End Time</FormLabel>
-              <Select
-                id="endTime"
-                placeholder="End Time"
-                onChange={(e) => {
-                  setEndTime(e.target.value);
-                }}
-              >
-                <option>0900</option>
-                <option>1000</option>
-                <option>1100</option>
-                <option>1200</option>
-                <option>1300</option>
-                <option>1400</option>
-                <option>1500</option>
-                <option>1600</option>
-                <option>1700</option>
-                <option>1800</option>
-                <option>1900</option>
-                <option>2000</option>
-                <option>2100</option>
-                <option>2200</option>
-              </Select>
-            </FormControl>
-          </VStack>
-        </HStack>
-        <HStack alignSelf={"end"}>
-          <Button
-            onClick={makeBooking}
-            rounded="none"
-            colorScheme="blue"
-            w={["full", "auto"]}
-            alignSelf="end"
-          >
-            Book
-          </Button>
-        </HStack>
-      </VStack>
-    </Box>
+              <FormControl isRequired>
+                <FormLabel htmlFor="endTime">End Time</FormLabel>
+                <Select
+                  id="endTime"
+                  placeholder="End Time"
+                  onChange={(e) => {
+                    setEndTime(e.target.value);
+                  }}
+                >
+                  <option>0900</option>
+                  <option>1000</option>
+                  <option>1100</option>
+                  <option>1200</option>
+                  <option>1300</option>
+                  <option>1400</option>
+                  <option>1500</option>
+                  <option>1600</option>
+                  <option>1700</option>
+                  <option>1800</option>
+                  <option>1900</option>
+                  <option>2000</option>
+                  <option>2100</option>
+                  <option>2200</option>
+                </Select>
+              </FormControl>
+            </VStack>
+          </HStack>
+          <HStack alignSelf={"end"}>
+            <Button
+              onClick={() => {
+                onOpen();
+              }}
+              rounded="none"
+              colorScheme="blue"
+              w={["full", "auto"]}
+              alignSelf="end"
+            >
+              Book
+            </Button>
+            <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Booking Confirmation</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <div>
+                    <HStack>
+                      <VStack align={"left"}>
+                        <div>Facility: </div>
+                        <div>Purpose: </div>
+                        <div>Number of People</div>
+                        <div>Date: </div>
+                        <div>Start Time: </div>
+                        <div>End Time: </div>
+                      </VStack>
+                      <VStack align={"left"}>
+                        <div> : {facility}</div>
+                        <div> : {purpose}</div>
+                        <div> : {numOfPeople}</div>
+                        <div> : {date}</div>
+                        <div> : {startTime}</div>
+                        <div> : {endTime}</div>
+                      </VStack>
+                    </HStack>
+                  </div>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button colorScheme="blue" mr={3} onClick={onClose}>
+                    Close
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      makeBooking();
+                      onClose();
+                    }}
+                  >
+                    Confirm Booking
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </HStack>
+        </VStack>
+      </Box>
+    </div>
   );
 };
 
