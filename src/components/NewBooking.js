@@ -2,6 +2,8 @@ import { React, useState } from "react";
 import { firebase } from "../firebase-config";
 import { AddBooking } from "../firebase/AddBooking";
 import {
+  Alert,
+  AlertIcon,
   Box,
   VStack,
   Heading,
@@ -39,6 +41,7 @@ const NewBooking = () => {
   const [numOfPeople, setNumOfPeople] = useState("");
   const uid = firebase.auth().currentUser.uid;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [error, setError] = useState("");
 
   let navigate = useNavigate();
 
@@ -186,10 +189,20 @@ const NewBooking = () => {
               </FormControl>
             </VStack>
           </HStack>
+          {error ? (
+          <Alert status="error">
+            <AlertIcon />
+            {error}
+          </Alert>
+        ) : null}
           <HStack alignSelf={"end"}>
             <Button
               onClick={() => {
-                onOpen();
+                if (facility === "" || purpose === "" || numOfPeople === "" || date === "" || startTime === "" || endTime === "") {
+                  setError("Please fill all fields");
+                } else {
+                  onOpen();
+                }
               }}
               rounded="none"
               colorScheme="blue"
@@ -227,11 +240,11 @@ const NewBooking = () => {
                 </ModalBody>
 
                 <ModalFooter>
-                  <Button colorScheme="blue" mr={3} onClick={onClose}>
+                  <Button variant="ghost" mr={3} onClick={onClose}>
                     Close
                   </Button>
                   <Button
-                    variant="ghost"
+                    colorScheme="blue" 
                     onClick={() => {
                       makeBooking();
                       onClose();
