@@ -30,6 +30,7 @@ import {
 } from "@chakra-ui/react";
 import { DatePicker } from "chakra-ui-date-input";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const NewBooking = () => {
   const [facility, setFacility] = useState("");
@@ -200,6 +201,14 @@ const NewBooking = () => {
               onClick={() => {
                 if (facility === "" || purpose === "" || numOfPeople === "" || date === "" || startTime === "" || endTime === "") {
                   setError("Please fill all fields");
+                } else if (moment(date,"DD/MM/YYYY").format("YYYYMMDD") < moment().add(1,'days').format("YYYYMMDD")) {
+                  setError("Date has passed");
+                } else if (moment(date,"DD/MM/YYYY").format("YYYYMMDD") > moment().add(13,'days').format("YYYYMMDD")) {
+                  setError("Please book within 2 weeks from today");
+                } else if (parseInt(endTime) - parseInt(startTime) < 100) {
+                  setError("Invalid time range");
+                } else if (parseInt(endTime) - parseInt(startTime) > 300) {
+                  setError("Max booking duration: 3 hours")
                 } else {
                   onOpen();
                 }
