@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { Button, Center, Container, VStack, Link } from "@chakra-ui/react";
 import { firebase } from "../firebase-config";
+import { CreateAvailFacility } from "../firebase/CreateAvailFacility";
 
 const Dashboard = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -19,6 +20,11 @@ const Dashboard = () => {
       <Center>
         <VStack>
           <Logo fontSize="72pt" textShadow="0px 1px 3px #00000033" />
+          <Button
+          onClick={() => CreateAvailFacility()}
+          colorScheme="red">
+            LOL
+          </Button>
           {loggedIn? <></>:
           <>
             <Button
