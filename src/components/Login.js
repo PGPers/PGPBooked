@@ -38,7 +38,7 @@ const Login = () => {
       console.log("Incorrect email or password");
       setError("Incorrect email or password");
     }
-    if (firebase.auth().currentUser) navigate("/dashboard");
+    if (firebase.auth().currentUser) navigate("/");
   };
 
   return (

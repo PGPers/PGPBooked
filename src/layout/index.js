@@ -8,23 +8,22 @@ import "./layout.css";
 const { Header, Content, Footer } = Layout;
 
 const AppLayout = ({ children }) => (
-  <Layout className="layout" style={{ height: "100vh" }}>
+  <div className="bg">
+  <Layout className="layout" style={{ height: "auto" }}>
     <AppHeader></AppHeader>
-    <Content
-      style={{
-        padding: "0 50px",
-      }}
+    <Content className="content"
     >
       <div className="site-layout-content">{children}</div>
     </Content>
-    <Footer
+    {/* <Footer
       style={{
         textAlign: "center",
       }}
     >
       PGPers ©2022 Created by Steven and Nixon
-    </Footer>
+    </Footer> */}
   </Layout>
+  </div>
 );
 
 export default AppLayout;

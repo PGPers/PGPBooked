@@ -8,4 +8,13 @@
 .site-layout-content {
   padding-top: 1rem;
   padding-bottom: 1.2rem;
+  background-color: white;
 }
+.content {
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+  background-color: white;
+}
+
+
+
