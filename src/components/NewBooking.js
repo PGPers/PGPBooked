@@ -60,6 +60,18 @@ const NewBooking = () => {
     navigate("../mybooking");
   };
 
+  const availableTimings = []
+  const changeDate = e => {
+    setDate(e);
+
+    /*
+      e itu datenya
+
+      Fetch the dataa dong disini trus masukin ke availableTimings
+
+    */
+  }
+
   return (
     <div>
       <Box
@@ -134,7 +146,7 @@ const NewBooking = () => {
                 <DatePicker
                   placeholder="Date"
                   name="date"
-                  onChange={(e) => setDate(e)}
+                  onChange={changeDate}
                 />
               </FormControl>
               <FormControl isRequired>
