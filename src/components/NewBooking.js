@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { firebase } from "../firebase-config";
 import { AddBooking } from "../firebase/AddBooking";
 import {
@@ -60,17 +60,36 @@ const NewBooking = () => {
     navigate("../mybooking");
   };
 
-  const availableTimings = []
-  const changeDate = e => {
+  let availableTimings = {};
+  const changeDate = async (e, facility) => {
     setDate(e);
+    const date = '20220705';
+    const availRef = firebase
+      .firestore()
+      .doc(`facilities/${facility}/availability/${date}`);
+    const availSnap = await availRef.get();
+    if (availSnap.exists) {
+      availableTimings = availSnap.data();
+      console.log(availableTimings);
+    }
+  };
 
-    /*
-      e itu datenya
-
-      Fetch the dataa dong disini trus masukin ke availableTimings
-
-    */
-  }
+  useEffect(() => {
+    let availableTimings = {};
+    const changeDate = async (e, facility) => {
+      setDate(e);
+      const date = '20220705';
+      const availRef = firebase
+        .firestore()
+        .doc(`facilities/${facility}/availability/${date}`);
+      const availSnap = await availRef.get();
+      if (availSnap.exists) {
+        availableTimings = availSnap.data();
+        console.log(availableTimings);
+      }
+    };
+    changeDate(1, 'music1');
+  });
 
   return (
     <div>
