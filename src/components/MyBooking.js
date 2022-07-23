@@ -1,6 +1,8 @@
 import React from "react";
 import { firebase } from "../firebase-config";
 import {
+  Alert,
+  AlertIcon,
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
@@ -28,7 +30,6 @@ import {
   VStack,
   FormControl,
   FormLabel,
-  Select,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -58,6 +59,7 @@ const MyBooking = () => {
   const { isOpen: timingIsOpen, onOpen: timingOnOpen, onClose: timingOnClose } = useDisclosure();
   const { isOpen: endtimingIsOpen, onOpen: endtimingOnOpen, onClose: endtimingOnClose } = useDisclosure();
   const [timings, setTimings] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -68,24 +70,75 @@ const MyBooking = () => {
         .orderBy("dateTime", "desc");
       const bookSnap = await bookRef.get();
       bookSnap.forEach((doc) => {
-        console.log(doc.id, doc.data());
+        //console.log(doc.id, doc.data());
         dummyBookings.push(doc.data());
       });
       setBookings(dummyBookings);
       setBusy(false);
     }
     fetchData();
-  }, [refreshKey]);
+  }, [refreshKey, uid]);
+
+  useEffect(() => {
+    let availableTimings = {};
+    const facility = onChangeItem.facility;
+    const changeDate = async () => {
+      if (moment(date,"DD/MM/YYYY").format("YYYYMMDD") < moment().add(1,'days').format("YYYYMMDD")) {
+        setError("Date has passed");
+      } else if (facility !== "") {
+        setError("");
+        const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
+        console.log(dateformat, facility);
+        const availRef = firebase
+          .firestore()
+          .doc(`facilities/${facility}/availability/${dateformat}`);
+        const availSnap = await availRef.get();
+        if (availSnap.exists) {
+          availableTimings = availSnap.data();
+          console.log(availableTimings);
+          setTimings(availableTimings);
+        }
+      } else if (startTime === '0900' || endTime === '0900') {
+        setError("Please select start and end time");
+      }
+    };
+    changeDate();
+  }, [date, onChangeItem, startTime, endTime]);
 
   const makeChange = async (item) => {
+    console.log(item);
     const bookid = item.bookid;
-    console.log(`make change to ${bookid}`);
+    const facility = item.facility;
+    const oldDate = item.date;
+    const dateformat = moment(oldDate,"DD/MM/YYYY").format("YYYYMMDD");
+    const startInt = parseInt(item.startTime);
+    const endInt = parseInt(item.endTime);
     await ChangeBooking(bookid, uid, date, numOfPeople, startTime, endTime);
     setRefreshKey((oldKey) => oldKey + 1);
+    const availRef = firebase.firestore().doc(`facilities/${facility}/availability/${dateformat}`);
+    const availSnap = await availRef.get();
+    if (availSnap.exists) {
+      const avail = availSnap.data();
+      for (let i = startInt; i < endInt; i+=100) {
+        avail[i] = avail[i] + 1;
+        await firebase.firestore().collection(`facilities/${facility}/availability`).doc(dateformat).update(avail);
+      }
+    }
+    const newDateFormat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
+    const newstartInt = parseInt(startTime);
+    const newendInt = parseInt(endTime);
+    const newavailRef = firebase.firestore().doc(`facilities/${facility}/availability/${newDateFormat}`);
+    const newavailSnap = await newavailRef.get();
+    if (newavailSnap.exists) {
+      const avail = newavailSnap.data();
+      for (let i = newstartInt; i < newendInt; i+=100) {
+        avail[i] = Math.max(avail[i]-1, 0);
+        await firebase.firestore().collection(`facilities/${facility}/availability`).doc(newDateFormat).update(avail);
+      }
+    }
   };
 
   const cancelBooking = async (item) => {
-    console.log(item);
     const bookid = item.bookid;
     const facility = item.facility;
     const date = item.date;
@@ -260,7 +313,12 @@ const MyBooking = () => {
               </VStack>
             </HStack>
           </ModalBody>
-
+          {error ? (
+          <Alert status="error">
+            <AlertIcon />
+            {error}
+          </Alert>
+        ) : null}
           <ModalFooter>
             <Button variant="ghost" mr={3} onClick={() => setOpenChange(false)}>
               Close
@@ -385,7 +443,7 @@ const MyBooking = () => {
                               if ((key-startTime) > 0 && (key-startTime) <= 200)
                               {
                                 let nextSlot = parseInt(key) - 100;
-                                if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                if ((key-startTime) === 200 && timings[nextSlot] === 0){
                                   return (
                                     <Td><Button disabled>{key}</Button></Td>
                                   );
@@ -416,7 +474,7 @@ const MyBooking = () => {
                                 if ((key-startTime) > 0 && (key-startTime) <= 200)
                                 {
                                   let nextSlot = parseInt(key) - 100;
-                                  if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                  if ((key-startTime) === 200 && timings[nextSlot] === 0){
                                     return (
                                       <Td><Button disabled>{key}</Button></Td>
                                     );
@@ -447,7 +505,7 @@ const MyBooking = () => {
                                 if ((key-startTime) > 0 && (key-startTime) <= 200)
                                 {
                                   let nextSlot = parseInt(key) - 100;
-                                  if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                  if ((key-startTime) === 200 && timings[nextSlot] === 0){
                                     return (
                                       <Td><Button disabled>{key}</Button></Td>
                                     );
