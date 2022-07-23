@@ -28,8 +28,8 @@ export async function AddBooking(uid, facility, date, matric, numOfPeople, purpo
     console.log(i);
     if (availSnap.exists) {
       const avail = availSnap.data();
-      const availability = Math.max(avail[i]-1, 0);
-      await firebase.firestore().collection(`facilities/${facility}/availability`).doc(dateformat).update({i : availability});
+      avail[i] = Math.max(avail[i]-1, 0);
+      await firebase.firestore().collection(`facilities/${facility}/availability`).doc(dateformat).update(avail);
     }
   }
 }
