@@ -87,12 +87,26 @@ const MyBooking = () => {
   const cancelBooking = async (item) => {
     console.log(item);
     const bookid = item.bookid;
+    const facility = item.facility;
+    const date = item.date;
+    const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
+    const startInt = parseInt(item.startTime);
+    const endInt = parseInt(item.endTime);
     await firebase.firestore().doc(`users/${uid}/bookings/${bookid}`).update({
       status: "CANCELED",
     });
     await firebase.firestore().doc(`bookings/${bookid}`).update({
       status: "CANCELED",
     });
+    const availRef = firebase.firestore().doc(`facilities/${facility}/availability/${dateformat}`);
+    const availSnap = await availRef.get();
+    if (availSnap.exists) {
+      const avail = availSnap.data();
+      for (let i = startInt; i < endInt; i+=100) {
+        avail[i] = avail[i] + 1;
+        await firebase.firestore().collection(`facilities/${facility}/availability`).doc(dateformat).update(avail);
+      }
+    }
     setRefreshKey((oldKey) => oldKey + 1);
     console.log(refreshKey);
   };
