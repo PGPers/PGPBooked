@@ -369,12 +369,12 @@ const NewBooking = () => {
                     <Tbody>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
+                            let nowSlot = parseInt(key) - 100;
                             if (key < "1400")
                             {
-                              if (timings[key] > 0 && (key-startTime) > 0 && (key-startTime) <= 200)
+                              if ((key-startTime) > 0 && (key-startTime) <= 200)
                               {
-                                let nextSlot = parseInt(key) + 100;
-                                nextSlot = nextSlot.toString();
+                                let nextSlot = parseInt(key) - 100;
                                 if ((key-startTime) == 200 && timings[nextSlot] == 0){
                                   return (
                                     <Td><Button disabled>{key}</Button></Td>
@@ -403,10 +403,9 @@ const NewBooking = () => {
                           {timings && Object.keys(timings).map(key => {
                               if (key >= "1400" && key < "1800")
                               {
-                                if (timings[key] > 0 && (key-startTime) > 0 && (key-startTime) <= 200)
+                                if ((key-startTime) > 0 && (key-startTime) <= 200)
                                 {
-                                  let nextSlot = parseInt(key) + 100;
-                                  nextSlot = nextSlot.toString();
+                                  let nextSlot = parseInt(key) - 100;
                                   if ((key-startTime) == 200 && timings[nextSlot] == 0){
                                     return (
                                       <Td><Button disabled>{key}</Button></Td>
@@ -435,10 +434,9 @@ const NewBooking = () => {
                           {timings && Object.keys(timings).map(key => {
                               if (key >= "1800")
                               {
-                                if (timings[key] > 0 && (key-startTime) > 0 && (key-startTime) <= 200)
+                                if ((key-startTime) > 0 && (key-startTime) <= 200)
                                 {
-                                  let nextSlot = parseInt(key) + 100;
-                                  nextSlot = nextSlot.toString();
+                                  let nextSlot = parseInt(key) - 100;
                                   if ((key-startTime) == 200 && timings[nextSlot] == 0){
                                     return (
                                       <Td><Button disabled>{key}</Button></Td>
