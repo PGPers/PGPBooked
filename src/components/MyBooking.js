@@ -55,6 +55,9 @@ const MyBooking = () => {
   const today = moment().format('DD/MM/YYYY');
   const [date, setDate] = useState(today);
   const [refreshKey, setRefreshKey] = useState(0);
+  const { isOpen: timingIsOpen, onOpen: timingOnOpen, onClose: timingOnClose } = useDisclosure();
+  const { isOpen: endtimingIsOpen, onOpen: endtimingOnOpen, onClose: endtimingOnClose } = useDisclosure();
+  const [timings, setTimings] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -233,54 +236,12 @@ const MyBooking = () => {
               <VStack>
                 <FormControl isRequired>
                   <FormLabel htmlFor="startTime">Start Time</FormLabel>
-                  <Select
-                    id="startTime"
-                    defaultValue={"0900"}
-                    onChange={(e) => {
-                      setStartTime(e.target.value);
-                    }}
-                  >
-                    <option>0900</option>
-                    <option>1000</option>
-                    <option>1100</option>
-                    <option>1200</option>
-                    <option>1300</option>
-                    <option>1400</option>
-                    <option>1500</option>
-                    <option>1600</option>
-                    <option>1700</option>
-                    <option>1800</option>
-                    <option>1900</option>
-                    <option>2000</option>
-                    <option>2100</option>
-                    <option>2200</option>
-                  </Select>
+                  <Button onClick={() => {timingOnOpen()}} width={{ base: '100%'}}>{startTime}</Button>
                 </FormControl>
 
                 <FormControl isRequired>
                   <FormLabel htmlFor="endTime">End Time</FormLabel>
-                  <Select
-                    id="endTime"
-                    defaultValue={"0900"}
-                    onChange={(e) => {
-                      setEndTime(e.target.value);
-                    }}
-                  >
-                    <option>0900</option>
-                    <option>1000</option>
-                    <option>1100</option>
-                    <option>1200</option>
-                    <option>1300</option>
-                    <option>1400</option>
-                    <option>1500</option>
-                    <option>1600</option>
-                    <option>1700</option>
-                    <option>1800</option>
-                    <option>1900</option>
-                    <option>2000</option>
-                    <option>2100</option>
-                    <option>2200</option>
-                  </Select>
+                  <Button onClick={() => {endtimingOnOpen()}} width={{ base: '100%'}}>{endTime}</Button>
                 </FormControl>
               </VStack>
             </HStack>
@@ -301,6 +262,211 @@ const MyBooking = () => {
             </Button>
           </ModalFooter>
         </ModalContent>
+      </Modal>
+      <Modal isOpen={timingIsOpen} onClose={timingOnClose}>
+              <ModalOverlay />
+              <ModalContent>
+              <ModalHeader>Available Timings for {date}</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                <TableContainer>
+                  <Table variant='simple' size="sm">
+                    <Tbody>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                            if (key < "1400")
+                            {
+                              if (timings[key] > 0)
+                              {
+                              return (
+                                <Td><Button 
+                                id="startTime"
+                                onClick={(e) => {
+                                  setStartTime(key);
+                                  timingOnClose();
+                                }}>{key}</Button></Td>
+                              );
+                              }
+                              else
+                              {
+                                return (
+                                  <Td><Button disabled>{key}</Button></Td>
+                                );
+                              }
+                            }
+                          })}
+                        </Tr>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                              if (key >= "1400" && key < "1800")
+                              {
+                                if (timings[key] > 0)
+                                {
+                                return (
+                                  <Td><Button id="startTime"
+                                  onClick={(e) => {
+                                    setStartTime(key);
+                                    timingOnClose();
+                                  }}>{key}</Button></Td>
+                                );
+                                }
+                                else
+                                {
+                                  return (
+                                    <Td><Button disabled>{key}</Button></Td>
+                                  );
+                                }
+                              } 
+                            })}
+                        </Tr>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                              if (key >= "1800")
+                              {
+                                if (timings[key] > 0)
+                                {
+                                return (
+                                  <Td><Button id="startTime"
+                                  onClick={(e) => {
+                                    setStartTime(key);
+                                    timingOnClose();
+                                  }}>{key}</Button></Td>
+                                );
+                                }
+                                else
+                                {
+                                  return (
+                                    <Td><Button disabled>{key}</Button></Td>
+                                  );
+                                }
+                              } 
+                            })}
+                        </Tr>
+                    </Tbody>  
+                  </Table>
+                </TableContainer>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="ghost" mr={3} onClick={timingOnClose}>
+                    Close
+                  </Button>
+                  
+                </ModalFooter>
+              </ModalContent>
+      </Modal>
+      <Modal isOpen={endtimingIsOpen} onClose={endtimingOnClose}>
+              <ModalOverlay />
+              <ModalContent>
+              <ModalHeader>End Time</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                <TableContainer>
+                  <Table variant='simple' size="sm">
+                    <Tbody>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                            let nowSlot = parseInt(key) - 100;
+                            if (key < "1400")
+                            {
+                              if ((key-startTime) > 0 && (key-startTime) <= 200)
+                              {
+                                let nextSlot = parseInt(key) - 100;
+                                if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                  return (
+                                    <Td><Button disabled>{key}</Button></Td>
+                                  );
+                                }
+                                else{
+                                  return (
+                                    <Td><Button id="startTime"
+                                    onClick={(e) => {
+                                      setEndTime(key);
+                                      endtimingOnClose();
+                                    }}>{key}</Button></Td>
+                                  );
+                                }
+                              }
+                              else
+                              {
+                                return (
+                                  <Td><Button disabled>{key}</Button></Td>
+                                );
+                              }
+                            }
+                          })}
+                        </Tr>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                              if (key >= "1400" && key < "1800")
+                              {
+                                if ((key-startTime) > 0 && (key-startTime) <= 200)
+                                {
+                                  let nextSlot = parseInt(key) - 100;
+                                  if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                    return (
+                                      <Td><Button disabled>{key}</Button></Td>
+                                    );
+                                  }
+                                  else{
+                                    return (
+                                      <Td><Button id="startTime"
+                                      onClick={(e) => {
+                                        setEndTime(key);
+                                        endtimingOnClose();
+                                      }}>{key}</Button></Td>
+                                    );
+                                  }
+                                }
+                                else
+                                {
+                                  return (
+                                    <Td><Button disabled>{key}</Button></Td>
+                                  );
+                                }
+                              } 
+                            })}
+                        </Tr>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                              if (key >= "1800")
+                              {
+                                if ((key-startTime) > 0 && (key-startTime) <= 200)
+                                {
+                                  let nextSlot = parseInt(key) - 100;
+                                  if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                    return (
+                                      <Td><Button disabled>{key}</Button></Td>
+                                    );
+                                  }
+                                  else{
+                                    return (
+                                      <Td><Button id="startTime"
+                                      onClick={(e) => {
+                                        setEndTime(key);
+                                        endtimingOnClose();
+                                      }}>{key}</Button></Td>
+                                    );
+                                  }
+                                }
+                                else
+                                {
+                                  return (
+                                    <Td><Button disabled>{key}</Button></Td>
+                                  );
+                                }
+                              } 
+                            })}
+                        </Tr>
+                    </Tbody>  
+                  </Table>
+                </TableContainer>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="ghost" mr={3} onClick={endtimingOnClose}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
       </Modal>
     </div>
   );
