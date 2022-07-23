@@ -22,12 +22,11 @@ export async function AddBooking(uid, facility, date, matric, numOfPeople, purpo
   const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
   const startInt = parseInt(startTime);
   const endInt = parseInt(endTime);
-  for (let i = startInt; i < endInt; i+=100) {
-    const availRef = firebase.firestore().doc(`facilities/${facility}/availability/${dateformat}`);
-    const availSnap = await availRef.get();
-    console.log(i);
-    if (availSnap.exists) {
-      const avail = availSnap.data();
+  const availRef = firebase.firestore().doc(`facilities/${facility}/availability/${dateformat}`);
+  const availSnap = await availRef.get();
+  if (availSnap.exists) {
+    const avail = availSnap.data();
+    for (let i = startInt; i < endInt; i+=100) {
       avail[i] = Math.max(avail[i]-1, 0);
       await firebase.firestore().collection(`facilities/${facility}/availability`).doc(dateformat).update(avail);
     }

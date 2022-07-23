@@ -375,7 +375,7 @@ const NewBooking = () => {
                               {
                                 let nextSlot = parseInt(key) + 100;
                                 nextSlot = nextSlot.toString();
-                                if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                if ((key-startTime) === 200 && timings[nextSlot] === 0){
                                   return (
                                     <Td><Button disabled>{key}</Button></Td>
                                   );
@@ -407,7 +407,7 @@ const NewBooking = () => {
                                 {
                                   let nextSlot = parseInt(key) + 100;
                                   nextSlot = nextSlot.toString();
-                                  if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                  if ((key-startTime) === 200 && timings[nextSlot] === 0){
                                     return (
                                       <Td><Button disabled>{key}</Button></Td>
                                     );
@@ -439,7 +439,7 @@ const NewBooking = () => {
                                 {
                                   let nextSlot = parseInt(key) + 100;
                                   nextSlot = nextSlot.toString();
-                                  if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                  if ((key-startTime) === 200 && timings[nextSlot] === 0){
                                     return (
                                       <Td><Button disabled>{key}</Button></Td>
                                     );
