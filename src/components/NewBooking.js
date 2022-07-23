@@ -27,6 +27,15 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
 } from "@chakra-ui/react";
 import { DatePicker } from "chakra-ui-date-input";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +51,10 @@ const NewBooking = () => {
   const [numOfPeople, setNumOfPeople] = useState("");
   const uid = firebase.auth().currentUser.uid;
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: timingIsOpen, onOpen: timingOnOpen, onClose: timingOnClose } = useDisclosure();
+  const { isOpen: endtimingIsOpen, onOpen: endtimingOnOpen, onClose: endtimingOnClose } = useDisclosure();
   const [error, setError] = useState("");
+  const [timings, setTimings] = useState("");
 
   let navigate = useNavigate();
 
@@ -77,7 +89,7 @@ const NewBooking = () => {
   useEffect(() => {
     let availableTimings = {};
     const changeDate = async (e, facility) => {
-      setDate(e);
+      // setDate(e); Kalau ini aku nyalain datenya kok malah jadi 1 nix..
       const date = '20220705';
       const availRef = firebase
         .firestore()
@@ -86,6 +98,7 @@ const NewBooking = () => {
       if (availSnap.exists) {
         availableTimings = availSnap.data();
         console.log(availableTimings);
+        setTimings(availableTimings);
       }
     };
     changeDate(1, 'music1');
@@ -170,54 +183,12 @@ const NewBooking = () => {
               </FormControl>
               <FormControl isRequired>
                 <FormLabel htmlFor="startTime">Start Time</FormLabel>
-                <Select
-                  id="startTime"
-                  placeholder="Start Time"
-                  onChange={(e) => {
-                    setStartTime(e.target.value);
-                  }}
-                >
-                  <option>0900</option>
-                  <option>1000</option>
-                  <option>1100</option>
-                  <option>1200</option>
-                  <option>1300</option>
-                  <option>1400</option>
-                  <option>1500</option>
-                  <option>1600</option>
-                  <option>1700</option>
-                  <option>1800</option>
-                  <option>1900</option>
-                  <option>2000</option>
-                  <option>2100</option>
-                  <option>2200</option>
-                </Select>
+                <Button onClick={() => {timingOnOpen()}} width={{ base: '100%'}}>{startTime}</Button>
               </FormControl>
 
               <FormControl isRequired>
                 <FormLabel htmlFor="endTime">End Time</FormLabel>
-                <Select
-                  id="endTime"
-                  placeholder="End Time"
-                  onChange={(e) => {
-                    setEndTime(e.target.value);
-                  }}
-                >
-                  <option>0900</option>
-                  <option>1000</option>
-                  <option>1100</option>
-                  <option>1200</option>
-                  <option>1300</option>
-                  <option>1400</option>
-                  <option>1500</option>
-                  <option>1600</option>
-                  <option>1700</option>
-                  <option>1800</option>
-                  <option>1900</option>
-                  <option>2000</option>
-                  <option>2100</option>
-                  <option>2200</option>
-                </Select>
+                <Button onClick={() => {endtimingOnOpen()}} width={{ base: '100%'}}>{endTime}</Button>
               </FormControl>
             </VStack>
           </HStack>
@@ -291,6 +262,187 @@ const NewBooking = () => {
                     }}
                   >
                     Confirm Booking
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+            <Modal isOpen={timingIsOpen} onClose={timingOnClose}>
+              <ModalOverlay />
+              <ModalContent>
+              <ModalHeader>Available Timings for {date}</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                <TableContainer>
+                  <Table variant='simple' size="sm">
+                    <Tbody>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                            if (key < "1300")
+                            {
+                              if (timings[key] > 0)
+                              {
+                              return (
+                                <Td><Button 
+                                id="startTime"
+                                onClick={(e) => {
+                                  setStartTime(key);
+                                  timingOnClose();
+                                }}>{key}</Button></Td>
+                              );
+                              }
+                              else
+                              {
+                                return (
+                                  <Button disabled>Key</Button>
+                                );
+                              }
+                            }
+                          })}
+                        </Tr>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                              if (key >= "1300" && key < "1700")
+                              {
+                                if (timings[key] > 0)
+                                {
+                                return (
+                                  <Td><Button id="startTime"
+                                  onClick={(e) => {
+                                    setStartTime(key);
+                                    timingOnClose();
+                                  }}>{key}</Button></Td>
+                                );
+                                }
+                                else
+                                {
+                                  return (
+                                    <Button disabled>Key</Button>
+                                  );
+                                }
+                              } 
+                            })}
+                        </Tr>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                              if (key >= "1700")
+                              {
+                                if (timings[key] > 0)
+                                {
+                                return (
+                                  <Td><Button id="startTime"
+                                  onClick={(e) => {
+                                    setStartTime(key);
+                                    timingOnClose();
+                                  }}>{key}</Button></Td>
+                                );
+                                }
+                                else
+                                {
+                                  return (
+                                    <Button disabled>Key</Button>
+                                  );
+                                }
+                              } 
+                            })}
+                        </Tr>
+                    </Tbody>  
+                  </Table>
+                </TableContainer>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="ghost" mr={3} onClick={timingOnClose}>
+                    Close
+                  </Button>
+                  
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+            <Modal isOpen={endtimingIsOpen} onClose={endtimingOnClose}>
+              <ModalOverlay />
+              <ModalContent>
+              <ModalHeader>End Time</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                <TableContainer>
+                  <Table variant='simple' size="sm">
+                    <Tbody>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                            if (key < "1300")
+                            {
+                              if (timings[key] > 0)
+                              {
+                              return (
+                                <Td><Button 
+                                id="startTime"
+                                onClick={(e) => {
+                                  setEndTime(key);
+                                  endtimingOnClose();
+                                }}>{key}</Button></Td>
+                              );
+                              }
+                              else
+                              {
+                                return (
+                                  <Button disabled>Key</Button>
+                                );
+                              }
+                            }
+                          })}
+                        </Tr>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                              if (key >= "1300" && key < "1700")
+                              {
+                                if (timings[key] > 0)
+                                {
+                                return (
+                                  <Td><Button id="startTime"
+                                  onClick={(e) => {
+                                    setEndTime(key);
+                                    endtimingOnClose();
+                                  }}>{key}</Button></Td>
+                                );
+                                }
+                                else
+                                {
+                                  return (
+                                    <Button disabled>Key</Button>
+                                  );
+                                }
+                              } 
+                            })}
+                        </Tr>
+                        <Tr>
+                          {timings && Object.keys(timings).map(key => {
+                              if (key >= "1700")
+                              {
+                                if (timings[key] > 0)
+                                {
+                                return (
+                                  <Td><Button id="startTime"
+                                  onClick={(e) => {
+                                    setEndTime(key);
+                                    endtimingOnClose();
+                                  }}>{key}</Button></Td>
+                                );
+                                }
+                                else
+                                {
+                                  return (
+                                    <Button disabled>Key</Button>
+                                  );
+                                }
+                              } 
+                            })}
+                        </Tr>
+                    </Tbody>  
+                  </Table>
+                </TableContainer>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="ghost" mr={3} onClick={endtimingOnClose}>
+                    Close
                   </Button>
                 </ModalFooter>
               </ModalContent>
