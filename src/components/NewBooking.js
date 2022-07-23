@@ -294,7 +294,7 @@ const NewBooking = () => {
                               else
                               {
                                 return (
-                                  <Button disabled>Key</Button>
+                                  <Td><Button disabled>{key}</Button></Td>
                                 );
                               }
                             }
@@ -317,7 +317,7 @@ const NewBooking = () => {
                                 else
                                 {
                                   return (
-                                    <Button disabled>Key</Button>
+                                    <Td><Button disabled>{key}</Button></Td>
                                   );
                                 }
                               } 
@@ -340,7 +340,7 @@ const NewBooking = () => {
                                 else
                                 {
                                   return (
-                                    <Button disabled>Key</Button>
+                                    <Td><Button disabled>{key}</Button></Td>
                                   );
                                 }
                               } 
@@ -371,21 +371,29 @@ const NewBooking = () => {
                           {timings && Object.keys(timings).map(key => {
                             if (key < "1400")
                             {
-                              if (timings[key] > 0)
+                              if (timings[key] > 0 && (key-startTime) > 0 && (key-startTime) <= 200)
                               {
-                              return (
-                                <Td><Button 
-                                id="startTime"
-                                onClick={(e) => {
-                                  setEndTime(key);
-                                  endtimingOnClose();
-                                }}>{key}</Button></Td>
-                              );
+                                let nextSlot = parseInt(key) + 100;
+                                nextSlot = nextSlot.toString();
+                                if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                  return (
+                                    <Td><Button disabled>{key}</Button></Td>
+                                  );
+                                }
+                                else{
+                                  return (
+                                    <Td><Button id="startTime"
+                                    onClick={(e) => {
+                                      setEndTime(key);
+                                      endtimingOnClose();
+                                    }}>{key}</Button></Td>
+                                  );
+                                }
                               }
                               else
                               {
                                 return (
-                                  <Button disabled>Key</Button>
+                                  <Td><Button disabled>{key}</Button></Td>
                                 );
                               }
                             }
@@ -395,20 +403,29 @@ const NewBooking = () => {
                           {timings && Object.keys(timings).map(key => {
                               if (key >= "1400" && key < "1800")
                               {
-                                if (timings[key] > 0)
+                                if (timings[key] > 0 && (key-startTime) > 0 && (key-startTime) <= 200)
                                 {
-                                return (
-                                  <Td><Button id="startTime"
-                                  onClick={(e) => {
-                                    setEndTime(key);
-                                    endtimingOnClose();
-                                  }}>{key}</Button></Td>
-                                );
+                                  let nextSlot = parseInt(key) + 100;
+                                  nextSlot = nextSlot.toString();
+                                  if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                    return (
+                                      <Td><Button disabled>{key}</Button></Td>
+                                    );
+                                  }
+                                  else{
+                                    return (
+                                      <Td><Button id="startTime"
+                                      onClick={(e) => {
+                                        setEndTime(key);
+                                        endtimingOnClose();
+                                      }}>{key}</Button></Td>
+                                    );
+                                  }
                                 }
                                 else
                                 {
                                   return (
-                                    <Button disabled>Key</Button>
+                                    <Td><Button disabled>{key}</Button></Td>
                                   );
                                 }
                               } 
@@ -418,20 +435,29 @@ const NewBooking = () => {
                           {timings && Object.keys(timings).map(key => {
                               if (key >= "1800")
                               {
-                                if (timings[key] > 0)
+                                if (timings[key] > 0 && (key-startTime) > 0 && (key-startTime) <= 200)
                                 {
-                                return (
-                                  <Td><Button id="startTime"
-                                  onClick={(e) => {
-                                    setEndTime(key);
-                                    endtimingOnClose();
-                                  }}>{key}</Button></Td>
-                                );
+                                  let nextSlot = parseInt(key) + 100;
+                                  nextSlot = nextSlot.toString();
+                                  if ((key-startTime) == 200 && timings[nextSlot] == 0){
+                                    return (
+                                      <Td><Button disabled>{key}</Button></Td>
+                                    );
+                                  }
+                                  else{
+                                    return (
+                                      <Td><Button id="startTime"
+                                      onClick={(e) => {
+                                        setEndTime(key);
+                                        endtimingOnClose();
+                                      }}>{key}</Button></Td>
+                                    );
+                                  }
                                 }
                                 else
                                 {
                                   return (
-                                    <Button disabled>Key</Button>
+                                    <Td><Button disabled>{key}</Button></Td>
                                   );
                                 }
                               } 
