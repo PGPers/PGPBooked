@@ -278,7 +278,7 @@ const NewBooking = () => {
                     <Tbody>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
-                            if (key < "1300")
+                            if (key < "1400")
                             {
                               if (timings[key] > 0)
                               {
@@ -302,7 +302,7 @@ const NewBooking = () => {
                         </Tr>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
-                              if (key >= "1300" && key < "1700")
+                              if (key >= "1400" && key < "1800")
                               {
                                 if (timings[key] > 0)
                                 {
@@ -325,7 +325,7 @@ const NewBooking = () => {
                         </Tr>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
-                              if (key >= "1700")
+                              if (key >= "1800")
                               {
                                 if (timings[key] > 0)
                                 {
@@ -369,7 +369,7 @@ const NewBooking = () => {
                     <Tbody>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
-                            if (key < "1300")
+                            if (key < "1400")
                             {
                               if (timings[key] > 0)
                               {
@@ -393,7 +393,7 @@ const NewBooking = () => {
                         </Tr>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
-                              if (key >= "1300" && key < "1700")
+                              if (key >= "1400" && key < "1800")
                               {
                                 if (timings[key] > 0)
                                 {
@@ -416,7 +416,7 @@ const NewBooking = () => {
                         </Tr>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
-                              if (key >= "1700")
+                              if (key >= "1800")
                               {
                                 if (timings[key] > 0)
                                 {
