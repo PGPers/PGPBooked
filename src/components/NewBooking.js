@@ -28,13 +28,9 @@ import {
   ModalBody,
   ModalCloseButton,
   Table,
-  Thead,
   Tbody,
-  Tfoot,
   Tr,
-  Th,
   Td,
-  TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
 import { DatePicker } from "chakra-ui-date-input";
@@ -88,21 +84,26 @@ const NewBooking = () => {
 
   useEffect(() => {
     let availableTimings = {};
-    const changeDate = async (e, facility) => {
-      // setDate(e); Kalau ini aku nyalain datenya kok malah jadi 1 nix..
-      const date = '20220705';
-      const availRef = firebase
-        .firestore()
-        .doc(`facilities/${facility}/availability/${date}`);
-      const availSnap = await availRef.get();
-      if (availSnap.exists) {
-        availableTimings = availSnap.data();
-        console.log(availableTimings);
-        setTimings(availableTimings);
+    const changeDate = async () => {
+      if (moment(date,"DD/MM/YYYY").format("YYYYMMDD") < moment().add(1,'days').format("YYYYMMDD")) {
+        setError("Date has passed");
+      } else if (facility !== "") {
+        setError("");
+        const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
+        console.log(dateformat, facility);
+        const availRef = firebase
+          .firestore()
+          .doc(`facilities/${facility}/availability/${dateformat}`);
+        const availSnap = await availRef.get();
+        if (availSnap.exists) {
+          availableTimings = availSnap.data();
+          console.log(availableTimings);
+          setTimings(availableTimings);
+        }
       }
     };
-    changeDate(1, 'music1');
-  });
+    changeDate();
+  }, [date, facility]);
 
   return (
     <div>

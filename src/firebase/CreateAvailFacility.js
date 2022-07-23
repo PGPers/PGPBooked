@@ -2,11 +2,11 @@ import { firebase } from "../firebase-config";
 import moment from 'moment';
 
 export async function CreateAvailFacility() {
-  const day = moment().add(14, 'days');
+  for (let i=0;i<100;i++){
+  const day = moment().add(i, 'days');
   const dateString = day.format('YYYYMMDD');
   const data = (num) => {
     const d = {
-      '0900': num,
       '1000': num,
       '1100': num,
       '1200': num,
@@ -22,8 +22,9 @@ export async function CreateAvailFacility() {
     };
     return d;
   }
-  await firebase.firestore().doc(`facilities/badmin1`).set({name: 'badmin1'});
-  await firebase.firestore().doc(`facilities/badmin1/availability/${dateString}`).set(data(3));
-  await firebase.firestore().doc(`facilities/music1`).set({name: 'music1'});
-  await firebase.firestore().doc(`facilities/music1/availability/${dateString}`).set(data(2));
+  //await firebase.firestore().doc(`facilities/badmin1`).set({name: 'badmin1'});
+  await firebase.firestore().doc(`facilities/Badminton Court/availability/${dateString}`).set(data(3));
+  //await firebase.firestore().doc(`facilities/music1`).set({name: 'music1'});
+  await firebase.firestore().doc(`facilities/Music Room/availability/${dateString}`).set(data(2));
+}
 }
