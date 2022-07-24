@@ -38,7 +38,7 @@ const AppHeader = () => {
   ];
 
   const navOptionsLoggedIn = [
-    { key: 0, label: <Link to="/">Dashboard</Link> },
+    // { key: 0, label: <Link to="/">Home</Link> },
     {
       key: 1,
       label: (
@@ -53,15 +53,16 @@ const AppHeader = () => {
 
   return (
     <>
-      <Header>
+      <Header >
         <div className="logo">
-          <img width="50px" src={Logo} alt="logo" />
+          <Link to="/"><img width="60px" src={Logo} alt="logo" /></Link>
         </div>
         <div className="nav-bar">
           <Menu
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={["0"]}
+            style={{ lineHeight: '64px' }}
             items={loggedIn ? navOptionsLoggedIn : navOptions}
           />
         </div>
