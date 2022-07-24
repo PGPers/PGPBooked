@@ -369,8 +369,9 @@ const NewBooking = () => {
                     <Tbody>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
+                            key = parseInt(key) + 100;
                             let nowSlot = parseInt(key) - 100;
-                            if (key < "1400")
+                            if (key < "1500")
                             {
                               if ((key-startTime) > 0 && (key-startTime) <= 200)
                               {
@@ -401,7 +402,8 @@ const NewBooking = () => {
                         </Tr>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
-                              if (key >= "1400" && key < "1800")
+                            key = parseInt(key) + 100;
+                              if (key >= "1500" && key < "1900")
                               {
                                 if ((key-startTime) > 0 && (key-startTime) <= 200)
                                 {
@@ -432,7 +434,8 @@ const NewBooking = () => {
                         </Tr>
                         <Tr>
                           {timings && Object.keys(timings).map(key => {
-                              if (key >= "1800")
+                            key = parseInt(key) + 100;
+                              if (key >= "1900")
                               {
                                 if ((key-startTime) > 0 && (key-startTime) <= 200)
                                 {
