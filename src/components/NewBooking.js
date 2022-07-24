@@ -90,14 +90,12 @@ const NewBooking = () => {
       } else if (facility !== "") {
         setError("");
         const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
-        console.log(dateformat, facility);
         const availRef = firebase
           .firestore()
           .doc(`facilities/${facility}/availability/${dateformat}`);
         const availSnap = await availRef.get();
         if (availSnap.exists) {
           availableTimings = availSnap.data();
-          console.log(availableTimings);
           setTimings(availableTimings);
         }
       }

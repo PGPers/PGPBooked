@@ -88,14 +88,12 @@ const MyBooking = () => {
       } else if (facility !== "") {
         setError("");
         const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
-        console.log(dateformat, facility);
         const availRef = firebase
           .firestore()
           .doc(`facilities/${facility}/availability/${dateformat}`);
         const availSnap = await availRef.get();
         if (availSnap.exists) {
           availableTimings = availSnap.data();
-          console.log(availableTimings);
           setTimings(availableTimings);
         }
       } 
@@ -115,7 +113,6 @@ const MyBooking = () => {
     } else if (!Number.isInteger(parseFloat(numOfPeople)) || parseInt(numOfPeople) < 0) {
       setError("Invalid number of people");
     } else {
-      console.log(item);
       const bookid = item.bookid;
       const facility = item.facility;
       const oldDate = item.date;
@@ -182,7 +179,6 @@ const MyBooking = () => {
     const bookid = item.bookid;
     await firebase.firestore().doc(`users/${uid}/bookings/${bookid}`).delete();
     setRefreshKey((oldKey) => oldKey + 1);
-    console.log('remove');
   }
 
   return (
@@ -233,7 +229,6 @@ const MyBooking = () => {
                       <Button
                         onClick={() => {
                           removeBooking(item);
-                          console.log(item);
                         }}
                         colorScheme="red"
                         size="sm"
