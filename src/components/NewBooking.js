@@ -210,8 +210,6 @@ const NewBooking = () => {
                   setError("Purpose must be less than 20 characters");
                 } else if (numOfPeople > 4) {
                   setError(`${facility} max capacity is 4 person`);
-                } else if (numOfPeople % 10 !== 0) {
-                  setError("Number of People must be integer!");
                 }
                 else {
                   onOpen();
