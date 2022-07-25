@@ -28,10 +28,10 @@ const Dashboard = () => {
             size="lg">
               Start Booking!
             </Button>
+          <Link href="https://github.com/PGPers/PGPBooked" target="_blank">
+            Check Our Github
+          </Link>
           </>}
-         <a href="https://github.com/PGPers/PGPBooked" target="_blank"><Button colorScheme="red">
-              Check Our Github
-            </Button></a>
         </VStack>
       </Center>
     </Container>
