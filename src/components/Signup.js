@@ -180,7 +180,7 @@ const Signup = () => {
               <FormLabel>Phone Number</FormLabel>
               <Input
                 id="phone"
-                type="phoneNumber"
+                type="number"
                 placeholder="Phone Number"
                 variant="filled"
                 value={phone}
