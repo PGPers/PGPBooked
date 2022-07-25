@@ -13,9 +13,9 @@ const Facilities = () => {
   return (
     <>
       <SimpleGrid columns={[2, null, 2]} spacing='40px'>
-        <Box borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='lg' rounded='md' bg='white'>
-          <Image boxSize='auto' src={"https://contents.mediadecathlon.com/s912306/k$f2521106f50bee3492957a3b57ea70ad/1180x0/300pt254/600xcr392/default.jpeg?format=auto&quality=80"} 
-          alt={"https://contents.mediadecathlon.com/s912306/k$f2521106f50bee3492957a3b57ea70ad/1180x0/300pt254/600xcr392/default.jpeg?format=auto&quality=80"} />
+        <Box borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='lg' rounded='25' bg='white'>
+          <Image boxSize='auto' src={"https://singaporebadminton.org.sg/site/wp-content/uploads/2021/04/171570894_129371942497111_1119041687230091728_n-2.jpg"} 
+          alt="badminton court" />
           <Box
             mt='1'
             fontWeight='bold'
@@ -29,8 +29,8 @@ const Facilities = () => {
           <Text fontSize='xl'>Occupancy: 4 pax per court</Text>
           <Text fontSize='xl'>Max booking duration: 2 hrs</Text>
         </Box>
-        <Box borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='lg' rounded='md' bg='white'>
-          <Image boxSize='auto' src={"https://img.tagvenue.com/upload/24/92/24998-studio-live-room-jamming-room.jpg"} alt={"https://img.tagvenue.com/upload/24/92/24998-studio-live-room-jamming-room.jpg"} />
+        <Box borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='lg' rounded='25' bg='white'>
+          <Image boxSize='auto' src={"https://i.pinimg.com/originals/0b/60/a6/0b60a60dd364952003d8067806700e12.jpg"} alt="music room" />
           <Box
             mt='1'
             fontWeight='bold'
