@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {
   SimpleGrid,
   Box,
   Image,
+  Text,
 } from "@chakra-ui/react";
 
 const Facilities = () => {
@@ -23,9 +23,10 @@ const Facilities = () => {
             lineHeight='tight'
             noOfLines={1}
           >
-            {"Badminton Court"}
+            <Text fontSize='3xl'>Badminton Court</Text>
           </Box>
-          Availability: 3 courts @4pax
+          <Text fontSize='xl'>Availability: 3 pax</Text>
+          <Text fontSize='xl'>Max booking duration: 2 hrs</Text>
         </Box>
         <Box borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='lg' rounded='md' bg='white'>
           <Image boxSize='auto' src={"https://img.tagvenue.com/upload/24/92/24998-studio-live-room-jamming-room.jpg"} alt={"https://img.tagvenue.com/upload/24/92/24998-studio-live-room-jamming-room.jpg"} />
@@ -36,9 +37,10 @@ const Facilities = () => {
             lineHeight='tight'
             noOfLines={1}
           >
-            {"Music Room"}
+            <Text fontSize='3xl'>Music Room</Text>
           </Box>
-          Availability: 2 rooms @4pax   
+          <Text fontSize='xl'>Availability: 2 pax</Text>
+          <Text fontSize='xl'>Max booking duration: 2 hrs</Text>
         </Box>
       </SimpleGrid>
     </>
