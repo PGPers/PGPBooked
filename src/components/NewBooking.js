@@ -94,14 +94,12 @@ const NewBooking = () => {
       else if (facility !== "") {
         setError("");
         const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
-        console.log(dateformat, facility);
         const availRef = firebase
           .firestore()
           .doc(`facilities/${facility}/availability/${dateformat}`);
         const availSnap = await availRef.get();
         if (availSnap.exists) {
           availableTimings = availSnap.data();
-          console.log(availableTimings);
           setTimings(availableTimings);
         }
       }
@@ -202,6 +200,8 @@ const NewBooking = () => {
                   setError("Date has passed");
                 } else if (moment(date,"DD/MM/YYYY").format("YYYYMMDD") > moment().add(13,'days').format("YYYYMMDD")) {
                   setError("Please book within 2 weeks from today");
+                } else if (!Number.isInteger(parseFloat(numOfPeople)) || parseInt(numOfPeople) < 0) {
+                  setError("Invalid number of people");
                 } else if (parseInt(endTime) - parseInt(startTime) < 100) {
                   setError("Invalid time range");
                 } else if (parseInt(endTime) - parseInt(startTime) > 300) {

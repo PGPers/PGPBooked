@@ -88,53 +88,65 @@ const MyBooking = () => {
       } else if (facility !== "") {
         setError("");
         const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
-        console.log(dateformat, facility);
         const availRef = firebase
           .firestore()
           .doc(`facilities/${facility}/availability/${dateformat}`);
         const availSnap = await availRef.get();
         if (availSnap.exists) {
           availableTimings = availSnap.data();
-          console.log(availableTimings);
           setTimings(availableTimings);
         }
-      } else if (startTime === '0900' || endTime === '0900') {
-        setError("Please select start and end time");
-      }
+      } 
     };
     changeDate();
   }, [date, onChangeItem, startTime, endTime]);
 
   const makeChange = async (item) => {
-    console.log(item);
-    const bookid = item.bookid;
-    const facility = item.facility;
-    const oldDate = item.date;
-    const dateformat = moment(oldDate,"DD/MM/YYYY").format("YYYYMMDD");
-    const startInt = parseInt(item.startTime);
-    const endInt = parseInt(item.endTime);
-    await ChangeBooking(bookid, uid, date, numOfPeople, startTime, endTime);
-    setRefreshKey((oldKey) => oldKey + 1);
-    const availRef = firebase.firestore().doc(`facilities/${facility}/availability/${dateformat}`);
-    const availSnap = await availRef.get();
-    if (availSnap.exists) {
-      const avail = availSnap.data();
-      for (let i = startInt; i < endInt; i+=100) {
-        avail[i] = avail[i] + 1;
-        await firebase.firestore().collection(`facilities/${facility}/availability`).doc(dateformat).update(avail);
+    if (moment(date,"DD/MM/YYYY").format("YYYYMMDD") < moment().add(1,'days').format("YYYYMMDD")) {
+      setError("Date has passed");
+    } else if (startTime === '0900' || endTime === '0900') {
+      setError("Please select start and end time");
+    } else if (parseInt(endTime) - parseInt(startTime) < 100) {
+      setError("Invalid time range");
+    } else if (parseInt(endTime) - parseInt(startTime) > 300) {
+      setError("Max booking duration: 3 hours")
+    } else if (!Number.isInteger(parseFloat(numOfPeople)) || parseInt(numOfPeople) < 0) {
+      setError("Invalid number of people");
+    } else {
+      const bookid = item.bookid;
+      const facility = item.facility;
+      const oldDate = item.date;
+      const dateformat = moment(oldDate,"DD/MM/YYYY").format("YYYYMMDD");
+      const startInt = parseInt(item.startTime);
+      const endInt = parseInt(item.endTime);
+      await ChangeBooking(bookid, uid, date, numOfPeople, startTime, endTime);
+      setRefreshKey((oldKey) => oldKey + 1);
+      const availRef = firebase.firestore().doc(`facilities/${facility}/availability/${dateformat}`);
+      const availSnap = await availRef.get();
+      if (availSnap.exists) {
+        const avail = availSnap.data();
+        for (let i = startInt; i < endInt; i+=100) {
+          avail[i] = avail[i] + 1;
+          await firebase.firestore().collection(`facilities/${facility}/availability`).doc(dateformat).update(avail);
+        }
       }
-    }
-    const newDateFormat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
-    const newstartInt = parseInt(startTime);
-    const newendInt = parseInt(endTime);
-    const newavailRef = firebase.firestore().doc(`facilities/${facility}/availability/${newDateFormat}`);
-    const newavailSnap = await newavailRef.get();
-    if (newavailSnap.exists) {
-      const avail = newavailSnap.data();
-      for (let i = newstartInt; i < newendInt; i+=100) {
-        avail[i] = Math.max(avail[i]-1, 0);
-        await firebase.firestore().collection(`facilities/${facility}/availability`).doc(newDateFormat).update(avail);
+      const newDateFormat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
+      const newstartInt = parseInt(startTime);
+      const newendInt = parseInt(endTime);
+      const newavailRef = firebase.firestore().doc(`facilities/${facility}/availability/${newDateFormat}`);
+      const newavailSnap = await newavailRef.get();
+      if (newavailSnap.exists) {
+        const avail = newavailSnap.data();
+        for (let i = newstartInt; i < newendInt; i+=100) {
+          avail[i] = Math.max(avail[i]-1, 0);
+          await firebase.firestore().collection(`facilities/${facility}/availability`).doc(newDateFormat).update(avail);
+        }
       }
+      setOpenChange(false);
+      setDate(today);
+      setStartTime("0900");
+      setEndTime("0900");
+      setNumOfPeople(1);
     }
   };
 
@@ -161,8 +173,13 @@ const MyBooking = () => {
       }
     }
     setRefreshKey((oldKey) => oldKey + 1);
-    console.log(refreshKey);
   };
+
+  const removeBooking = async (item) => {
+    const bookid = item.bookid;
+    await firebase.firestore().doc(`users/${uid}/bookings/${bookid}`).delete();
+    setRefreshKey((oldKey) => oldKey + 1);
+  }
 
   return (
     <div>
@@ -208,17 +225,26 @@ const MyBooking = () => {
                       </Button>
                     </Td>
                     <Td>
+                      {item.status === "CANCELED"?
                       <Button
-                        disabled={item.status === "CANCELED"}
                         onClick={() => {
-                          onOpen();
-                          setOnDeleteItem(item);
+                          removeBooking(item);
                         }}
                         colorScheme="red"
                         size="sm"
                       >
-                        Cancel
-                      </Button>
+                        Remove
+                      </Button> : 
+                      <Button
+                      onClick={() => {
+                        onOpen();
+                        setOnDeleteItem(item);
+                      }}
+                      colorScheme="red"
+                      size="sm"
+                    >
+                      Cancel
+                    </Button> }
                     </Td>
                   </Tr>
                 );
@@ -327,7 +353,6 @@ const MyBooking = () => {
               colorScheme="green"
               onClick={() => {
                 makeChange(onChangeItem);
-                setOpenChange(false);
               }}
             >
               Change Booking

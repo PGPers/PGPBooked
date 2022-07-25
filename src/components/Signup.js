@@ -34,6 +34,11 @@ const Signup = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const handlePhone = (e) => {
+    const result = e.target.value.replace(/\D/g, '');
+    setRegisterPhone(result);
+  }
+
   const register = async () => {
     if (!isValidEmail(registerEmail)) {
       console.log("Email is not valid");
@@ -182,9 +187,7 @@ const Signup = () => {
                 border={["none", "1px"]}
                 borderColor={["", "gray.300"]}
                 borderRadius={10}
-                onChange={(e) => {
-                  setRegisterPhone(e.target.value);
-                }}
+                onChange={handlePhone}
               />
             </FormControl>
           </VStack>
