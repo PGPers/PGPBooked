@@ -20,11 +20,6 @@ const Dashboard = () => {
       <Center>
         <VStack>
           <Logo fontSize="72pt" textShadow="0px 1px 3px #00000033" />
-          <Button
-          onClick={() => CreateAvailFacility()}
-          colorScheme="red">
-            LOL
-          </Button>
           {loggedIn? <></>:
           <>
             <Button
@@ -33,10 +28,10 @@ const Dashboard = () => {
             size="lg">
               Start Booking!
             </Button>
-            <Link href="https://github.com/PGPers/PGPBooked" target="_blank">
-              Check Our Github
-            </Link>
           </>}
+         <a href="https://github.com/PGPers/PGPBooked" target="_blank"><Button colorScheme="red">
+              Check Our Github
+            </Button></a>
         </VStack>
       </Center>
     </Container>

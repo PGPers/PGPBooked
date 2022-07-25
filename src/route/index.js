@@ -15,6 +15,7 @@ import Confirmation from "../components/Confirmation";
 
 import { useEffect, useState } from "react";
 import { firebase } from "../firebase-config";
+import Facilities from "../components/Facilities";
 
 const appRoutes = [
   { key: 1, path: "/", element: <Dashboard /> },
@@ -28,6 +29,7 @@ const appRoutes = [
 const protectedRoutes = [
   { key: 3, path: "/newbooking", element: <NewBooking /> },
   { key: 4, path: "/mybooking", element: <MyBooking /> },
+  { key: 5, path: "/facilities", element: <Facilities/>}
 ];
 
 const bookengs = [{ path: "confirmation/fHI07FTGEcsUQpKDGjrl" }];

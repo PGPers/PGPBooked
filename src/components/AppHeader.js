@@ -39,16 +39,17 @@ const AppHeader = () => {
 
   const navOptionsLoggedIn = [
     // { key: 0, label: <Link to="/">Home</Link> },
+    { key: 1, label: <Link to="/facilities">Facilities</Link>},
+    { key: 2, label: <Link to="/newbooking">New Booking</Link> },
+    { key: 3, label: <Link to="/mybooking">My Booking</Link> },
     {
-      key: 1,
+      key: 4,
       label: (
         <Link to="/" onClick={signOut}>
           Logout
         </Link>
       ),
     },
-    { key: 2, label: <Link to="/newbooking">New Booking</Link> },
-    { key: 3, label: <Link to="/mybooking">My Booking</Link> },
   ];
 
   return (
@@ -63,6 +64,7 @@ const AppHeader = () => {
             mode="horizontal"
             defaultSelectedKeys={["0"]}
             style={{ lineHeight: '64px' }}
+            disabledOverflow="true"
             items={loggedIn ? navOptionsLoggedIn : navOptions}
           />
         </div>
