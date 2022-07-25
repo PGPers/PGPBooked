@@ -87,7 +87,11 @@ const NewBooking = () => {
     const changeDate = async () => {
       if (moment(date,"DD/MM/YYYY").format("YYYYMMDD") < moment().add(1,'days').format("YYYYMMDD")) {
         setError("Date has passed");
-      } else if (facility !== "") {
+      } 
+      // else if (purpose.length()>10){
+      //   setError("Purpose must be less then 10 characters");
+      // }
+      else if (facility !== "") {
         setError("");
         const dateformat = moment(date,"DD/MM/YYYY").format("YYYYMMDD");
         console.log(dateformat, facility);
@@ -136,16 +140,6 @@ const NewBooking = () => {
                   <option>Music Room</option>
                 </Select>
               </FormControl>
-              {/* <FormControl isRequired>
-              <FormLabel htmlFor="matric">Matric No</FormLabel>
-              <Input
-                id="matric"
-                placeholder="Matric No"
-                onChange={(e) => {
-                  setMatric(e.target.value);
-                }}
-              />
-            </FormControl> */}
               <FormControl isRequired>
                 <FormLabel htmlFor="purpose">Purpose</FormLabel>
                 <Input
@@ -159,7 +153,7 @@ const NewBooking = () => {
               <FormControl isRequired>
                 <FormLabel htmlFor="amount">Number of People</FormLabel>
                 <NumberInput
-                  max={50}
+                  // max={50}
                   min={1}
                   onChange={(e) => {
                     setNumOfPeople(e);
@@ -211,8 +205,15 @@ const NewBooking = () => {
                 } else if (parseInt(endTime) - parseInt(startTime) < 100) {
                   setError("Invalid time range");
                 } else if (parseInt(endTime) - parseInt(startTime) > 300) {
-                  setError("Max booking duration: 3 hours")
-                } else {
+                  setError("Max booking duration: 3 hours");
+                } else if (purpose.length > 20) {
+                  setError("Purpose must be less than 20 characters");
+                } else if (numOfPeople > 4) {
+                  setError(`${facility} max capacity is 4 person`);
+                } else if (numOfPeople % 10 !== 0) {
+                  setError("Number of People must be integer!");
+                }
+                else {
                   onOpen();
                 }
               }}
