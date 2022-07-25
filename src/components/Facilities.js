@@ -25,7 +25,8 @@ const Facilities = () => {
           >
             <Text fontSize='3xl'>Badminton Court</Text>
           </Box>
-          <Text fontSize='xl'>Availability: 3 pax</Text>
+          <Text fontSize='xl'>Availability: 3 Courts</Text>
+          <Text fontSize='xl'>Occupancy: 4 pax per court</Text>
           <Text fontSize='xl'>Max booking duration: 2 hrs</Text>
         </Box>
         <Box borderWidth='1px' borderRadius='lg' overflow='hidden' boxShadow='lg' rounded='md' bg='white'>
@@ -39,7 +40,8 @@ const Facilities = () => {
           >
             <Text fontSize='3xl'>Music Room</Text>
           </Box>
-          <Text fontSize='xl'>Availability: 2 pax</Text>
+          <Text fontSize='xl'>Availability: 2 Rooms</Text>
+          <Text fontSize='xl'>Occupancy: 4 pax per room</Text>
           <Text fontSize='xl'>Max booking duration: 2 hrs</Text>
         </Box>
       </SimpleGrid>
