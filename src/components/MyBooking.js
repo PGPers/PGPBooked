@@ -112,6 +112,8 @@ const MyBooking = () => {
       setError("Max booking duration: 3 hours")
     } else if (!Number.isInteger(parseFloat(numOfPeople)) || parseInt(numOfPeople) < 0) {
       setError("Invalid number of people");
+    } else if (numOfPeople > 4) {
+      setError(`${item.facility} max capacity is 4 person`);
     } else {
       const bookid = item.bookid;
       const facility = item.facility;
