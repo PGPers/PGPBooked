@@ -22,10 +22,12 @@ const ForgotPassword = () => {
       .auth()
       .sendPasswordResetEmail(email)
       .then(() => {
-        console.log("Reset password email sent");
+        // console.log("Reset password email sent");
+        alert("Reset password email sent if email exists");
       })
       .catch((e) => {
-        console.log(e.message);
+        // console.log(e.message);
+        alert("Reset password email sent if email exists");
       });
     };
 
