@@ -208,7 +208,7 @@ const NewBooking = () => {
                   setError("Max booking duration: 3 hours");
                 } else if (purpose.length > 20) {
                   setError("Purpose must be less than 20 characters");
-                } else if (numOfPeople > 4) {
+                } else if (parseInt(numOfPeople) > 4) {
                   setError(`${facility} max capacity is 4 person`);
                 }
                 else {
