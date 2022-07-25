@@ -4,6 +4,7 @@ import {
   SimpleGrid,
   Box,
   Image,
+  Text,
 } from "@chakra-ui/react";
 
 const Facilities = () => {
@@ -20,9 +21,10 @@ const Facilities = () => {
             lineHeight='tight'
             noOfLines={1}
           >
-            {"Badminton Court"}
+            <Text fontSize='3xl'>Badminton Court</Text>
           </Box>
-          Availability: 3 pax
+          <Text fontSize='xl'>Availability: 3 pax</Text>
+          <Text fontSize='xl'>Max booking duration: 2 hrs</Text>
         </Box>
         <Box boxShadow='lg' p='6' rounded='md' bg='white'>
           <Image src={"https://img.tagvenue.com/upload/24/92/24998-studio-live-room-jamming-room.jpg"} alt={"https://img.tagvenue.com/upload/24/92/24998-studio-live-room-jamming-room.jpg"} />
@@ -33,9 +35,10 @@ const Facilities = () => {
             lineHeight='tight'
             noOfLines={1}
           >
-            {"Music Room"}
+            <Text fontSize='3xl'>Music Room</Text>
           </Box>
-          Availability: 2 pax
+          <Text fontSize='xl'>Availability: 2 pax</Text>
+          <Text fontSize='xl'>Max booking duration: 2 hrs</Text>
         </Box>
       </SimpleGrid>
     </>
